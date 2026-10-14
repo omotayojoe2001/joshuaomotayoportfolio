@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { Magnetic } from "@/components/motion-primitives";
 
 const NAV = [
+  { to: "/", label: "HOME", desc: "Back to the start" },
   { to: "/work", label: "WORK", desc: "Selected websites & digital experiences" },
   { to: "/build", label: "BUILD", desc: "Products I'm creating" },
   { to: "/think", label: "THINK", desc: "Writing, ideas & experiments" },
@@ -128,9 +129,7 @@ export function SiteNav() {
                   >
                     <Link to={item.to} className="block">
                       <span className="display block text-4xl">{item.label}</span>
-                      <span className="mt-1 block text-sm text-muted-foreground">
-                        {item.desc}
-                      </span>
+                      <span className="mt-1 block text-sm text-muted-foreground">{item.desc}</span>
                     </Link>
                   </motion.li>
                 ))}

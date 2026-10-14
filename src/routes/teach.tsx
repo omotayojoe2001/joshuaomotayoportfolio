@@ -3,6 +3,7 @@ import { PageHeader, Section, ArrowLink } from "@/components/site-sections";
 import { LearningPath } from "@/components/learning-path";
 import { VideoSection } from "@/components/video-section";
 import { Reveal } from "@/components/motion-primitives";
+import { useSettings } from "@/lib/content";
 
 const TOPICS = [
   { title: "Web Development", body: "HTML, CSS, JavaScript, React and modern interfaces." },
@@ -30,6 +31,8 @@ export const Route = createFileRoute("/teach")({
 });
 
 function TeachPage() {
+  const { data: settings } = useSettings();
+  const youtubeUrl = settings?.youtube_url || "";
   return (
     <>
       <PageHeader
@@ -59,6 +62,27 @@ function TeachPage() {
 
       <Section index="03" label="WATCH / LEARN">
         <VideoSection />
+      </Section>
+
+      <Section className="pt-0">
+        <div className="border border-border p-8 md:p-12">
+          <h2 className="display max-w-3xl text-3xl md:text-5xl">
+            READY TO LEARN HOW TO BUILD WITH TECHNOLOGY AND AI?
+          </h2>
+          <p className="mt-4 max-w-xl text-muted-foreground">
+            Join the programme at Genrev Learning — or watch free lessons on my YouTube channel.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <ArrowLink href="https://learn.genrev.ng" tone="accent">
+              Go to learn.genrev.ng
+            </ArrowLink>
+            {youtubeUrl ? (
+              <ArrowLink href={youtubeUrl}>Go to my YouTube channel</ArrowLink>
+            ) : (
+              <ArrowLink to="/contact">Invite me to teach</ArrowLink>
+            )}
+          </div>
+        </div>
       </Section>
 
       <Section className="pt-0">

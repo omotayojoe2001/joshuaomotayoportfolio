@@ -45,7 +45,10 @@ export function SiteFooter() {
             <ul className="mt-4 space-y-2">
               {INTERNAL.map((l) => (
                 <li key={l.to}>
-                  <Link to={l.to} className="link-underline text-sm text-muted-foreground hover:text-foreground">
+                  <Link
+                    to={l.to}
+                    className="link-underline text-sm text-muted-foreground hover:text-foreground"
+                  >
                     {l.label}
                   </Link>
                 </li>
@@ -98,7 +101,12 @@ export function SiteFooter() {
 
         <div className="rule mt-14 flex flex-col gap-2 pt-6 label-tech md:flex-row md:items-center md:justify-between">
           <span>© {year} Joshua Omotayo</span>
-          <span>BUILT FROM NIGERIA. BUILT FOR EVERYWHERE.</span>
+          <span className="flex items-center gap-6">
+            <span>BUILT FROM NIGERIA. BUILT FOR EVERYWHERE.</span>
+            <Link to="/admin" className="text-muted-foreground/50 hover:text-accent">
+              ADMIN
+            </Link>
+          </span>
         </div>
       </div>
     </footer>

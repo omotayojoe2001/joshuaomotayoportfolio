@@ -15,6 +15,8 @@ import { Route as BuildRouteImport } from './routes/build'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as LabRouteImport } from './routes/lab'
 import { Route as TeachRouteImport } from './routes/teach'
+import { Route as AdminIndexRouteImport } from './routes/admin/index'
+import { Route as AdminLoginRouteImport } from './routes/admin/login'
 import { Route as ThinkIndexRouteImport } from './routes/think/index'
 import { Route as ThinkSlugRouteImport } from './routes/think/$slug'
 import { Route as WorkIndexRouteImport } from './routes/work/index'
@@ -50,6 +52,16 @@ const TeachRoute = TeachRouteImport.update({
   path: '/teach',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminIndexRoute = AdminIndexRouteImport.update({
+  id: '/admin/',
+  path: '/admin/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ThinkIndexRoute = ThinkIndexRouteImport.update({
   id: '/think/',
   path: '/think/',
@@ -78,8 +90,10 @@ export interface FileRoutesByFullPath {
   '/contact': typeof ContactRoute
   '/lab': typeof LabRoute
   '/teach': typeof TeachRoute
+  '/admin/login': typeof AdminLoginRoute
   '/think/$slug': typeof ThinkSlugRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/think/': typeof ThinkIndexRoute
   '/work/': typeof WorkIndexRoute
 }
@@ -90,8 +104,10 @@ export interface FileRoutesByTo {
   '/contact': typeof ContactRoute
   '/lab': typeof LabRoute
   '/teach': typeof TeachRoute
+  '/admin/login': typeof AdminLoginRoute
   '/think/$slug': typeof ThinkSlugRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/admin': typeof AdminIndexRoute
   '/think': typeof ThinkIndexRoute
   '/work': typeof WorkIndexRoute
 }
@@ -103,8 +119,10 @@ export interface FileRoutesById {
   '/contact': typeof ContactRoute
   '/lab': typeof LabRoute
   '/teach': typeof TeachRoute
+  '/admin/login': typeof AdminLoginRoute
   '/think/$slug': typeof ThinkSlugRoute
   '/work/$slug': typeof WorkSlugRoute
+  '/admin/': typeof AdminIndexRoute
   '/think/': typeof ThinkIndexRoute
   '/work/': typeof WorkIndexRoute
 }
@@ -117,8 +135,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/lab'
     | '/teach'
+    | '/admin/login'
     | '/think/$slug'
     | '/work/$slug'
+    | '/admin/'
     | '/think/'
     | '/work/'
   fileRoutesByTo: FileRoutesByTo
@@ -129,8 +149,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/lab'
     | '/teach'
+    | '/admin/login'
     | '/think/$slug'
     | '/work/$slug'
+    | '/admin'
     | '/think'
     | '/work'
   id:
@@ -141,8 +163,10 @@ export interface FileRouteTypes {
     | '/contact'
     | '/lab'
     | '/teach'
+    | '/admin/login'
     | '/think/$slug'
     | '/work/$slug'
+    | '/admin/'
     | '/think/'
     | '/work/'
   fileRoutesById: FileRoutesById
@@ -154,8 +178,10 @@ export interface RootRouteChildren {
   ContactRoute: typeof ContactRoute
   LabRoute: typeof LabRoute
   TeachRoute: typeof TeachRoute
+  AdminLoginRoute: typeof AdminLoginRoute
   ThinkSlugRoute: typeof ThinkSlugRoute
   WorkSlugRoute: typeof WorkSlugRoute
+  AdminIndexRoute: typeof AdminIndexRoute
   ThinkIndexRoute: typeof ThinkIndexRoute
   WorkIndexRoute: typeof WorkIndexRoute
 }
@@ -204,6 +230,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof TeachRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/': {
+      id: '/admin/'
+      path: '/admin'
+      fullPath: '/admin/'
+      preLoaderRoute: typeof AdminIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/think/': {
       id: '/think/'
       path: '/think'
@@ -242,8 +282,10 @@ const rootRouteChildren: RootRouteChildren = {
   ContactRoute: ContactRoute,
   LabRoute: LabRoute,
   TeachRoute: TeachRoute,
+  AdminLoginRoute: AdminLoginRoute,
   ThinkSlugRoute: ThinkSlugRoute,
   WorkSlugRoute: WorkSlugRoute,
+  AdminIndexRoute: AdminIndexRoute,
   ThinkIndexRoute: ThinkIndexRoute,
   WorkIndexRoute: WorkIndexRoute,
 }

@@ -71,8 +71,8 @@ export const CAPABILITIES = [
   },
   {
     code: "02",
-    title: "AI Integration",
-    body: "Integrating AI into websites, products and workflows to make technology more useful and intelligent.",
+    title: "AI Integration & Automation",
+    body: "Integrating AI into websites, products and workflows — assistants and automations that make technology more useful and intelligent.",
     tags: ["LLMs", "Automation", "Assistants"],
   },
   {

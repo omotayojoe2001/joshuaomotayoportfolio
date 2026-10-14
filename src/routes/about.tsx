@@ -1,4 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { useState } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { PageHeader, Section, ArrowLink } from "@/components/site-sections";
 import { Reveal } from "@/components/motion-primitives";
@@ -30,9 +31,7 @@ function CycleMarquee() {
       <motion.div
         className="flex w-max items-center gap-8"
         animate={reduced ? { x: "0%" } : { x: ["0%", "-33.333%"] }}
-        transition={
-          reduced ? { duration: 0 } : { repeat: Infinity, duration: 22, ease: "linear" }
-        }
+        transition={reduced ? { duration: 0 } : { repeat: Infinity, duration: 22, ease: "linear" }}
       >
         {row.map((word, i) => (
           <span key={i} className="flex items-center gap-8">
@@ -48,18 +47,32 @@ function CycleMarquee() {
 }
 
 function Portrait() {
+  const [failed, setFailed] = useState(false);
   return (
     <Reveal delay={0.1}>
       <figure className="group relative aspect-[4/5] overflow-hidden border border-border bg-surface">
-        {/* Placeholder portrait area — replace with Joshua's real photograph via the CMS. */}
-        <div className="grid-bg absolute inset-0" />
-        <div
-          aria-hidden
-          className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(25,167,160,0.16),transparent)] opacity-70 transition-opacity duration-700 group-hover:opacity-100"
-        />
+        {!failed ? (
+          // Drop your photo at public/joshua.jpg and it appears here automatically.
+          <img
+            src="/joshua.jpg"
+            alt="Joshua Omotayo"
+            onError={() => setFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.03]"
+          />
+        ) : (
+          <>
+            {/* Placeholder portrait area — replace by adding public/joshua.jpg. */}
+            <div className="grid-bg absolute inset-0" />
+            <div
+              aria-hidden
+              className="absolute inset-0 bg-[radial-gradient(70%_50%_at_50%_30%,rgba(25,167,160,0.16),transparent)] opacity-70 transition-opacity duration-700 group-hover:opacity-100"
+            />
+          </>
+        )}
         <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between border-t border-border bg-background/70 px-5 py-4 backdrop-blur">
           <span className="label-tech">JOSHUA OMOTAYO</span>
-          <span className="label-tech text-accent">PORTRAIT — ADD VIA CMS</span>
+          {!failed && <span className="label-tech text-accent">PORTRAIT</span>}
+          {failed && <span className="label-tech text-accent">ADD VIA /joshua.jpg</span>}
         </figcaption>
       </figure>
     </Reveal>
@@ -122,8 +135,8 @@ function AboutPage() {
             <span className="text-accent">BUILDING FOR EVERYWHERE.</span>
           </h2>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
-            Where a product is built matters less than the quality of the thinking behind it.
-            Global technology can be built from anywhere — and the work speaks for itself.
+            Where a product is built matters less than the quality of the thinking behind it. Global
+            technology can be built from anywhere — and the work speaks for itself.
           </p>
         </Reveal>
       </Section>
