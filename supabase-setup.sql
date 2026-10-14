@@ -2,14 +2,23 @@
 -- Joshua Omotayo portfolio — full Supabase setup
 -- Paste this whole file into Supabase Dashboard > SQL Editor > New query > Run
 -- Runs the CMS schema, then seeds all 16 portfolio projects.
--- Safe to run once on a fresh project. Seed step is idempotent (upsert by slug).
+-- IDEMPOTENT: safe to run more than once on the same project (it skips what already exists).
+-- The seed step is also idempotent (upsert by slug).
 -- ============================================================
 
 -- ---------- 1) SCHEMA ----------
 -- roles
-create type public.app_role as enum ('admin','editor','user');
+-- guarded so re-running does not throw "type app_role already exists"
+do $$ begin
+  if not exists (
+    select 1 from pg_type t join pg_namespace n on n.oid = t.typnamespace
+    where n.nspname = 'public' and t.typname = 'app_role'
+  ) then
+    create type public.app_role as enum ('admin','editor','user');
+  end if;
+end $$;
 
-create table public.user_roles (
+create table if not exists public.user_roles (
   id uuid primary key default gen_random_uuid(),
   user_id uuid not null,
   role public.app_role not null,
@@ -19,6 +28,7 @@ create table public.user_roles (
 grant select on public.user_roles to authenticated;
 grant all on public.user_roles to service_role;
 alter table public.user_roles enable row level security;
+drop policy if exists "own roles readable" on public.user_roles;
 create policy "own roles readable" on public.user_roles for select to authenticated using (user_id = auth.uid());
 
 create or replace function public.has_role(_user_id uuid, _role public.app_role)
@@ -31,7 +41,7 @@ returns trigger language plpgsql as $$
 begin new.updated_at = now(); return new; end $$;
 
 -- projects
-create table public.projects (
+create table if not exists public.projects (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   slug text not null unique,
@@ -59,7 +69,7 @@ create table public.projects (
   updated_at timestamptz not null default now()
 );
 
-create table public.articles (
+create table if not exists public.articles (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   slug text not null unique,
@@ -77,7 +87,7 @@ create table public.articles (
   updated_at timestamptz not null default now()
 );
 
-create table public.experiments (
+create table if not exists public.experiments (
   id uuid primary key default gen_random_uuid(),
   code text not null default '001',
   title text not null,
@@ -89,7 +99,7 @@ create table public.experiments (
   updated_at timestamptz not null default now()
 );
 
-create table public.testimonials (
+create table if not exists public.testimonials (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   company text default '',
@@ -103,7 +113,7 @@ create table public.testimonials (
   updated_at timestamptz not null default now()
 );
 
-create table public.youtube_videos (
+create table if not exists public.youtube_videos (
   id uuid primary key default gen_random_uuid(),
   title text not null,
   video_url text not null,
@@ -115,7 +125,7 @@ create table public.youtube_videos (
   updated_at timestamptz not null default now()
 );
 
-create table public.now_items (
+create table if not exists public.now_items (
   id uuid primary key default gen_random_uuid(),
   label text not null,
   status text not null default 'BUILDING',
@@ -125,7 +135,7 @@ create table public.now_items (
   updated_at timestamptz not null default now()
 );
 
-create table public.site_settings (
+create table if not exists public.site_settings (
   id int primary key default 1,
   site_name text default 'Joshua Omotayo',
   email text default '',
@@ -140,7 +150,7 @@ create table public.site_settings (
   constraint site_settings_singleton check (id = 1)
 );
 
-create table public.contact_submissions (
+create table if not exists public.contact_submissions (
   id uuid primary key default gen_random_uuid(),
   name text not null,
   email text not null,
@@ -151,7 +161,7 @@ create table public.contact_submissions (
   created_at timestamptz not null default now()
 );
 
-insert into public.site_settings (id) values (1);
+insert into public.site_settings (id) values (1) on conflict (id) do nothing;
 
 grant select on public.projects, public.articles, public.experiments, public.testimonials, public.youtube_videos, public.now_items, public.site_settings to anon, authenticated;
 grant insert, update, delete on public.projects, public.articles, public.experiments, public.testimonials, public.youtube_videos, public.now_items, public.site_settings to authenticated;
@@ -168,51 +178,81 @@ alter table public.now_items enable row level security;
 alter table public.site_settings enable row level security;
 alter table public.contact_submissions enable row level security;
 
+drop policy if exists "public read published projects" on public.projects;
 create policy "public read published projects" on public.projects for select to anon, authenticated using (published = true or public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin write projects" on public.projects;
 create policy "admin write projects" on public.projects for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "public read published articles" on public.articles;
 create policy "public read published articles" on public.articles for select to anon, authenticated using (published = true or public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin write articles" on public.articles;
 create policy "admin write articles" on public.articles for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "public read experiments" on public.experiments;
 create policy "public read experiments" on public.experiments for select to anon, authenticated using (published = true or public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin write experiments" on public.experiments;
 create policy "admin write experiments" on public.experiments for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "public read testimonials" on public.testimonials;
 create policy "public read testimonials" on public.testimonials for select to anon, authenticated using (published = true or public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin write testimonials" on public.testimonials;
 create policy "admin write testimonials" on public.testimonials for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "public read videos" on public.youtube_videos;
 create policy "public read videos" on public.youtube_videos for select to anon, authenticated using (published = true or public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin write videos" on public.youtube_videos;
 create policy "admin write videos" on public.youtube_videos for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "public read now" on public.now_items;
 create policy "public read now" on public.now_items for select to anon, authenticated using (published = true or public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin write now" on public.now_items;
 create policy "admin write now" on public.now_items for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "public read settings" on public.site_settings;
 create policy "public read settings" on public.site_settings for select to anon, authenticated using (true);
+drop policy if exists "admin write settings" on public.site_settings;
 create policy "admin write settings" on public.site_settings for all to authenticated using (public.has_role(auth.uid(),'admin')) with check (public.has_role(auth.uid(),'admin'));
 
+drop policy if exists "anyone can submit" on public.contact_submissions;
 create policy "anyone can submit" on public.contact_submissions for insert to anon, authenticated with check (true);
+drop policy if exists "admin read submissions" on public.contact_submissions;
 create policy "admin read submissions" on public.contact_submissions for select to authenticated using (public.has_role(auth.uid(),'admin'));
+drop policy if exists "admin delete submissions" on public.contact_submissions;
 create policy "admin delete submissions" on public.contact_submissions for delete to authenticated using (public.has_role(auth.uid(),'admin'));
 
+drop trigger if exists projects_updated on public.projects;
 create trigger projects_updated before update on public.projects for each row execute function public.set_updated_at();
+drop trigger if exists articles_updated on public.articles;
 create trigger articles_updated before update on public.articles for each row execute function public.set_updated_at();
+drop trigger if exists experiments_updated on public.experiments;
 create trigger experiments_updated before update on public.experiments for each row execute function public.set_updated_at();
+drop trigger if exists testimonials_updated on public.testimonials;
 create trigger testimonials_updated before update on public.testimonials for each row execute function public.set_updated_at();
+drop trigger if exists videos_updated on public.youtube_videos;
 create trigger videos_updated before update on public.youtube_videos for each row execute function public.set_updated_at();
+drop trigger if exists now_updated on public.now_items;
 create trigger now_updated before update on public.now_items for each row execute function public.set_updated_at();
+drop trigger if exists settings_updated on public.site_settings;
 create trigger settings_updated before update on public.site_settings for each row execute function public.set_updated_at();
 
-insert into public.now_items (label, status, sort_order) values
+insert into public.now_items (label, status, sort_order)
+select v.label, v.status, v.sort_order from (values
  ('Building websites for clients','BUILDING',1),
  ('Exploring AI systems','EXPLORING',2),
  ('Building GenRev','BUILDING',3),
  ('Building GoodDeed Network','BUILDING',4),
  ('Teaching technology','TEACHING',5),
- ('Publishing ideas','WRITING',6);
+ ('Publishing ideas','WRITING',6)
+) as v(label,status,sort_order)
+where not exists (select 1 from public.now_items);
 
-insert into public.experiments (code, title, description, status) values
+insert into public.experiments (code, title, description, status)
+select v.code, v.title, v.description, v.status from (values
  ('001','Cursor field','A pointer-reactive grid exploring how motion communicates depth.','EXPLORING'),
  ('002','Prompt surfaces','Interface patterns for AI inside ordinary product screens.','BUILDING'),
- ('003','Editorial scroll','Type-driven scroll transitions for long-form technical writing.','SHIPPED');
+ ('003','Editorial scroll','Type-driven scroll transitions for long-form technical writing.','SHIPPED')
+) as v(code,title,description,status)
+where not exists (select 1 from public.experiments);
 
 
 -- ---------- 2) PROJECT SEED ----------
