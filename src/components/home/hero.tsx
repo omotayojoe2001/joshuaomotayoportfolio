@@ -3,16 +3,10 @@ import { useEffect, useState } from "react";
 import { LineReveal } from "@/components/motion-primitives";
 import { ArrowLink } from "@/components/site-sections";
 
-const CARDS = [
-  { t: "client-site.tsx", s: "WEB", x: 4, y: 8, w: "w-52", d: 22 },
-  { t: "ai-assistant", s: "AI INTERFACE", x: 46, y: 2, w: "w-44", d: -18 },
-  { t: "dashboard/overview", s: "PRODUCT UI", x: 22, y: 44, w: "w-56", d: 14 },
-  { t: "deploy — ok", s: "BUILD LOG", x: 58, y: 58, w: "w-40", d: -26 },
-];
-
 export function Hero() {
   const reduced = useReducedMotion();
   const [pointer, setPointer] = useState({ x: 0, y: 0 });
+  const [photoFailed, setPhotoFailed] = useState(false);
 
   useEffect(() => {
     if (reduced) return;
@@ -97,43 +91,48 @@ export function Hero() {
           </dl>
         </div>
 
-        {/* Interactive workspace */}
-        <div className="relative min-h-[320px] lg:col-span-5 lg:min-h-[520px]" aria-hidden>
-          {CARDS.map((c, i) => (
+        {/* Portrait */}
+        <div className="relative min-h-[320px] lg:col-span-5 lg:min-h-[520px]">
+          <div className="flex h-full items-center justify-center">
             <motion.div
-              key={c.t}
-              className={`absolute ${c.w} border border-border bg-surface/70 backdrop-blur-sm`}
-              style={{ left: `${c.x}%`, top: `${c.y}%` }}
-              initial={reduced ? false : { opacity: 0, y: 30, scale: 0.96 }}
+              className="relative w-full max-w-sm"
+              initial={reduced ? false : { opacity: 0, y: 30, scale: 0.97 }}
               animate={{
                 opacity: 1,
                 y: 0,
                 scale: 1,
-                x: reduced ? 0 : pointer.x * c.d,
-                rotate: reduced ? 0 : pointer.y * (c.d / 8),
+                x: reduced ? 0 : pointer.x * -18,
+                rotate: reduced ? 0 : pointer.y * -2,
               }}
               transition={{
-                opacity: { delay: 0.3 + i * 0.1, duration: 0.7 },
-                y: { delay: 0.3 + i * 0.1, duration: 0.7 },
+                opacity: { delay: 0.35, duration: 0.7 },
+                y: { delay: 0.35, duration: 0.7 },
                 default: { type: "spring", stiffness: 60, damping: 18 },
               }}
             >
-              <div className="flex items-center gap-1.5 border-b border-border px-3 py-2">
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/50" />
-                <span className="h-1.5 w-1.5 rounded-full bg-muted-foreground/30" />
-                <span className="h-1.5 w-1.5 rounded-full bg-accent/60" />
-                <span className="ml-2 truncate font-mono text-[10px] text-muted-foreground">
-                  {c.t}
-                </span>
-              </div>
-              <div className="space-y-2 p-3">
-                <div className="h-1.5 w-3/4 bg-foreground/15" />
-                <div className="h-1.5 w-1/2 bg-foreground/10" />
-                <div className="h-10 w-full bg-gradient-to-br from-primary/25 to-transparent" />
-                <div className="label-tech text-[9px] text-accent">{c.s}</div>
+              <div className="relative aspect-[4/5] overflow-hidden border border-border bg-surface shadow-2xl">
+                {photoFailed ? (
+                  <div className="grid-bg absolute inset-0" />
+                ) : (
+                  <img
+                    src="/joshua.jpg"
+                    alt="Joshua Omotayo"
+                    loading="eager"
+                    onError={() => setPhotoFailed(true)}
+                    className="absolute inset-0 h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
+                  />
+                )}
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-background/80 via-background/10 to-transparent" />
+                <figcaption className="absolute inset-x-0 bottom-0 flex items-center justify-between px-5 py-4 label-tech">
+                  <span className="text-foreground">JOSHUA OMOTAYO</span>
+                  <span className="inline-flex items-center gap-2 text-accent">
+                    <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-accent" />
+                    OPEN TO WORK
+                  </span>
+                </figcaption>
               </div>
             </motion.div>
-          ))}
+          </div>
         </div>
       </div>
     </section>
