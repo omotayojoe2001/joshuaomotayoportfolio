@@ -15,10 +15,43 @@ import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 
-const SITE_URL = "https://joshuaomotayo.com";
+const SITE_URL = "https://joshuaomotayo.com.ng";
 const DEFAULT_TITLE = "Joshua Omotayo — Web Developer, AI Builder & Technology Educator";
 const DEFAULT_DESCRIPTION =
   "Websites, AI-powered experiences and digital products built from Nigeria for businesses and people around the world.";
+const DEFAULT_IMAGE = `${SITE_URL}/joshua.jpg`;
+const DEFAULT_KEYWORDS =
+  "Joshua Omotayo, web developer Nigeria, AI builder, AI integration, website design, digital products, technology educator, frontend developer, Lagos, React, GenRev, PlayGen";
+
+const PERSON_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  name: "Joshua Omotayo",
+  url: SITE_URL,
+  image: DEFAULT_IMAGE,
+  jobTitle: ["Web Developer", "AI Builder", "Technology Educator"],
+  email: "mailto:playgen.ng@gmail.com",
+  knowsAbout: [
+    "Web Development",
+    "AI Integration & Automation",
+    "Digital Products",
+    "Technology Education",
+    "React",
+    "TypeScript",
+  ],
+  areaServed: ["Nigeria", "Canada", "United Kingdom", "United States"],
+  sameAs: ["https://www.youtube.com/@joshua-omotayo", "https://genrev.app"],
+};
+
+const WEBSITE_JSONLD = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  name: "Joshua Omotayo",
+  url: SITE_URL,
+  description: DEFAULT_DESCRIPTION,
+  inLanguage: "en",
+  author: { "@type": "Person", name: "Joshua Omotayo" },
+};
 
 function NotFoundComponent() {
   return (
@@ -87,16 +120,21 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { name: "viewport", content: "width=device-width, initial-scale=1" },
       { title: DEFAULT_TITLE },
       { name: "description", content: DEFAULT_DESCRIPTION },
+      { name: "keywords", content: DEFAULT_KEYWORDS },
       { name: "author", content: "Joshua Omotayo" },
+      { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
       { name: "theme-color", content: "#050505" },
       { property: "og:site_name", content: "Joshua Omotayo" },
+      { property: "og:locale", content: "en_NG" },
       { property: "og:title", content: DEFAULT_TITLE },
       { property: "og:description", content: DEFAULT_DESCRIPTION },
       { property: "og:type", content: "website" },
-      { property: "og:url", content: SITE_URL },
+      { property: "og:image", content: DEFAULT_IMAGE },
+      { property: "og:image:alt", content: DEFAULT_TITLE },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:title", content: DEFAULT_TITLE },
       { name: "twitter:description", content: DEFAULT_DESCRIPTION },
+      { name: "twitter:image", content: DEFAULT_IMAGE },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -120,10 +158,27 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
 });
 
 function RootShell({ children }: { children: ReactNode }) {
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const bare = pathname.startsWith("/admin");
+  const canonical = pathname === "/" ? `${SITE_URL}/` : `${SITE_URL}${pathname.replace(/\/$/, "")}`;
   return (
     <html lang="en">
       <head>
         <HeadContent />
+        {!bare && <link rel="canonical" href={canonical} />}
+        {!bare && <meta property="og:url" content={canonical} />}
+        {!bare && (
+          <>
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(PERSON_JSONLD) }}
+            />
+            <script
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(WEBSITE_JSONLD) }}
+            />
+          </>
+        )}
       </head>
       <body>
         {children}

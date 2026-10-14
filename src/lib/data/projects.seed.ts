@@ -49,36 +49,6 @@ function build(draft: Draft): Project {
 
 export const seedProjects: Project[] = [
   build({
-    id: "7f1c0a10-0000-4000-8000-000000000001",
-    title: "Genrev AI Business Autopilot",
-    slug: "genrev-ai-autopilot",
-    description:
-      "An AI platform that creates the content, publishes it, captures leads, follows up and converts — while the business owner does nothing.",
-    overview:
-      "Genrev's flagship promise is absolute: the AI runs the entire business. The site had to make that claim believable in a single scroll — a clear account of what the agent does, what it costs, and what the owner still controls.",
-    problem:
-      "Small businesses are told AI will save them time, then handed a tool that needs prompt engineering, a content calendar and a social media manager to operate. Genrev needed to show automation that starts on day one, not after six hours of setup.",
-    approach:
-      "We led with the output, not the settings. A live autopilot strip shows content being written, scheduled, posted and answered in one loop, followed by the lead pipeline it feeds. Every feature is written as a sentence the owner already uses — 'it posts itself', 'it follows up itself'.",
-    design_direction:
-      "Dark, confident and mechanical: near-black surfaces, a single acid accent, monospaced labels and visible rules. The interface reads like a control room rather than a SaaS marketing page.",
-    development:
-      "React with a component-driven marketing layer, CSS-grid layouts, scroll reveals tied to the automation loop, and forms wired to the platform's onboarding API. Section-level state keeps the demo strips light on mobile.",
-    outcome:
-      "One page that carries the whole product story: clearer positioning, fewer 'what does it actually do' questions, and demo requests arriving already pre-sold on the premise.",
-    reflection:
-      "The harder job was not the animation, it was restraint — an autopilot pitch becomes credible the moment you stop over-explaining it and let one honest loop do the talking.",
-    category: "AI Platform",
-    year: "2026",
-    client: "Genrev",
-    location: "Lagos, Nigeria",
-    technologies: ["React", "Tailwind CSS", "REST API", "Vite"],
-    url: "https://www.genrev.ng/",
-    layout: "full",
-    sort_order: 1,
-    featured: true,
-  }),
-  build({
     id: "7f1c0a10-0000-4000-8000-000000000002",
     title: "Wealthtiv",
     slug: "wealthtiv",

@@ -28,3 +28,7 @@ update public.site_settings set email = 'playgen.ng@gmail.com'
 -- 5) Retire the outdated now-board entry. "Building GenRev" (genrev.ng is down)
 --    becomes "Building Arise SLG". Only renames the old label, leaves admin edits alone.
 update public.now_items set label = 'Building Arise SLG' where label = 'Building GenRev';
+
+-- 6) Retire work that pointed at the dead genrev.ng site:
+--    the GenRev AI Autopilot case study (the GenRev AI product on /build stays, on genrev.app).
+delete from public.projects where slug = 'genrev-ai-autopilot';
