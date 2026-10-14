@@ -40,7 +40,12 @@ const PERSON_JSONLD = {
     "TypeScript",
   ],
   areaServed: ["Nigeria", "Canada", "United Kingdom", "United States"],
-  sameAs: ["https://www.youtube.com/@joshua-omotayo", "https://genrev.app"],
+  sameAs: [
+    "https://www.youtube.com/@joshua-omotayo",
+    "https://www.linkedin.com/in/joshua-omotayo/",
+    "https://www.tiktok.com/@joshua.o.timilehin",
+    "https://genrev.app",
+  ],
 };
 
 const WEBSITE_JSONLD = {

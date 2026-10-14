@@ -51,9 +51,10 @@ update public.site_settings set
   email = 'playgen.ng@gmail.com',              -- <-- your direct email
   youtube_url = 'https://www.youtube.com/@joshua-omotayo',  -- <-- your YouTube channel
   github_url = '',
-  linkedin_url = '',
+  linkedin_url = 'https://www.linkedin.com/in/joshua-omotayo/',
   twitter_url = '',
   instagram_url = '',
+  tiktok_url = 'https://www.tiktok.com/@joshua.o.timilehin',
   availability_status = 'Available for new projects',
   current_focus = ''
 where id = 1;

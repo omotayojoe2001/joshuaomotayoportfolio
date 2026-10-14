@@ -31,6 +31,8 @@ type Draft = {
   layout?: Project["layout"];
   sort_order?: number;
   featured?: boolean;
+  featured_image?: string;
+  status?: string;
 };
 
 function build(draft: Draft): Project {
@@ -110,33 +112,35 @@ export const seedProjects: Project[] = [
   }),
   build({
     id: "7f1c0a10-0000-4000-8000-000000000004",
-    title: "Genrev Learning Hub",
-    slug: "genrev-learning",
+    title: "LinkUp — WhatsApp Chatbot",
+    slug: "linkup-whatsapp-chatbot",
     description:
-      "Web design, web development and AI mastery — from zero to paid clients in one complete programme.",
+      "An AI chatbot that lives on WhatsApp — connecting people to what they need inside the app they already use. One tap, no download.",
     overview:
-      "A single curriculum covering web design, WordPress, AI-assisted development, UI/UX and how to actually get paid for the work. The site is the enrolment front for that programme.",
+      "LinkUp meets people where they already are. Instead of asking anyone to install another app, it puts a helpful AI assistant directly inside WhatsApp, reachable through a single tap-to-chat link.",
     problem:
-      "Learners were assembling their own paths from scattered free tutorials and never reached a client-ready standard. The programme needed to present a complete path, not another lesson list.",
+      "The best tool in the world is useless if nobody opens it. Adoption dies at the download button, so the assistant had to live in the one app people already check a hundred times a day.",
     approach:
-      "The page is structured as a route: where you start, the modules in order, the projects you build, and the point at which you are ready to be paid. Outcomes are placed above features, and the curriculum expands inline so nothing is hidden behind a PDF.",
+      "A conversation-first design: the entire experience is a chat thread. Someone messages what they need and the AI responds — no menus to learn, no onboarding, no account to create before getting value.",
     design_direction:
-      "Energetic but disciplined — bright accent on a dark base, numbered stages, and clear typographic hierarchy so a long curriculum still scans in under a minute.",
+      "Familiar and frictionless. It borrows WhatsApp's own conversational grammar so it feels like messaging a person, not operating software.",
     development:
-      "Component-based modules rendered from a typed curriculum structure, accordion stage navigation, sticky enrolment call-to-action, and form handling into the CRM.",
+      "Built the AI chat layer that understands requests and answers helpfully, wired to WhatsApp so a single wa.link opens the conversation with zero setup.",
     outcome:
-      "One page that answers the four questions that stop enrolment: is it for me, what will I build, how long, and what happens after.",
+      "Shipped and live on WhatsApp behind one tap-to-chat link — reachable the moment someone taps it.",
     reflection:
-      "Selling education is selling a sequence. Once the order is obvious, the pitch gets much shorter.",
-    category: "EdTech",
+      "Distribution beat features. Putting the assistant inside WhatsApp removed the only barrier that actually mattered: getting people to show up.",
+    category: "AI Chatbot",
     year: "2026",
-    client: "Genrev",
+    client: "LinkUp",
     location: "Lagos, Nigeria",
-    technologies: ["React", "Tailwind CSS", "CMS", "Forms"],
-    url: "https://learn.genrev.ng/",
+    technologies: ["WhatsApp", "AI", "Chatbot", "Node"],
+    url: "https://wa.link/linkup-",
     layout: "landscape",
     sort_order: 4,
     featured: true,
+    featured_image: "/linkup.jpeg",
+    status: "Live",
   }),
   build({
     id: "7f1c0a10-0000-4000-8000-000000000005",

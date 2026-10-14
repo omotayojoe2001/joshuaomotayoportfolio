@@ -60,7 +60,7 @@ function fromBrand(): DisplayProduct[] {
     cta: p.cta,
     visual: p.visual,
     index: p.index,
-    image: ogImage(p.url),
+    image: p.image || ogImage(p.url),
     status: "LIVE",
   }));
 }

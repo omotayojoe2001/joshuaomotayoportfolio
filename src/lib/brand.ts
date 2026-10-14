@@ -15,6 +15,7 @@ export type Product = {
   cta: string;
   visual: ProductVisual;
   index: string;
+  image?: string;
 };
 
 export const PRODUCTS: Product[] = [
@@ -52,15 +53,16 @@ export const PRODUCTS: Product[] = [
     index: "03",
   },
   {
-    name: "BuildBot",
-    url: "",
-    domain: "",
-    position: "AI Build Agent",
+    name: "LinkUp",
+    url: "https://wa.link/linkup-",
+    domain: "wa.link/linkup-",
+    position: "WhatsApp AI Chatbot",
     description:
-      "An AI agent that helps build and ship software. Currently in development — link coming soon.",
-    cta: "Coming soon",
+      "An AI chatbot that lives on WhatsApp — connecting people to what they need, right inside the app they already use. Built and shipped by Joshua.",
+    cta: "Chat with LinkUp",
     visual: "assistant",
     index: "04",
+    image: "/linkup.jpeg",
   },
 ];
 

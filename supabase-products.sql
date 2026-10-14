@@ -44,6 +44,8 @@ create trigger products_updated before update on public.products
 
 -- Retire the old genrev.ng product entirely (the site is down). Keep GenRev AI (genrev.app).
 delete from public.products where slug = 'genrev';
+-- LinkUp replaces BuildBot on /build.
+delete from public.products where slug = 'buildbot';
 
 -- Seed the current showcase. Edit freely from the admin afterwards.
 insert into public.products (name, slug, url, position, description, cta, visual, status, sort_order, published) values
@@ -56,9 +58,9 @@ insert into public.products (name, slug, url, position, description, cta, visual
   ('PlayGen', 'playgen', 'https://www.playgen.com.ng/', 'Earn Real Naira — Tasks & Quizzes',
    'Complete tasks, win sponsored quizzes and recharge your phone while earning money into your wallet. No gambling, no tricks.',
    'Visit PlayGen', 'business', 'LIVE · IN PROGRESS', 3, true),
-  ('BuildBot', 'buildbot', '', 'AI Build Agent',
-   'An AI agent that helps build and ship software. Currently in development — link coming soon.',
-   'Coming soon', 'assistant', 'IN PROGRESS', 4, true)
+  ('LinkUp', 'linkup', 'https://wa.link/linkup-', 'WhatsApp AI Chatbot',
+   'An AI chatbot that lives on WhatsApp, connecting people to what they need, right inside the app they already use. Built and shipped by Joshua.',
+   'Chat with LinkUp', 'assistant', 'LIVE', 4, true)
 on conflict (slug) do update set
   name = excluded.name,
   url = excluded.url,
@@ -70,3 +72,6 @@ on conflict (slug) do update set
   sort_order = excluded.sort_order,
   published = excluded.published,
   updated_at = now();
+
+-- LinkUp uses the real image in /public (a wa.link screenshot would look broken).
+update public.products set image = '/linkup.jpeg' where slug = 'linkup';
