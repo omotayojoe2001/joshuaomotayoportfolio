@@ -49,7 +49,7 @@ update public.site_settings set
   id = 1,
   site_name = 'Joshua Omotayo',
   email = 'playgen.ng@gmail.com',              -- <-- your direct email
-  youtube_url = '',                            -- <-- paste your YouTube channel URL
+  youtube_url = 'https://www.youtube.com/@joshua-omotayo',  -- <-- your YouTube channel
   github_url = '',
   linkedin_url = '',
   twitter_url = '',

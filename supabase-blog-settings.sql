@@ -13,3 +13,11 @@ alter table public.site_settings add column if not exists location text default 
 
 -- 3) Make sure the single settings row exists (safe if it already does).
 insert into public.site_settings (id) values (1) on conflict (id) do nothing;
+
+-- 4) Fill your defaults ONLY if they are still empty (never overwrites admin edits).
+update public.site_settings set youtube_url = 'https://www.youtube.com/@joshua-omotayo'
+  where id = 1 and (youtube_url is null or youtube_url = '');
+update public.site_settings set location = 'Lagos, Nigeria'
+  where id = 1 and (location is null or location = '');
+update public.site_settings set email = 'playgen.ng@gmail.com'
+  where id = 1 and (email is null or email = '');
