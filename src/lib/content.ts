@@ -13,7 +13,7 @@ export type SiteSettings = Tables<"site_settings">;
 export type BuildProduct = Tables<"products">;
 export type ContactSubmission = Tables<"contact_submissions">;
 
-/** Shown when the CMS is unreachable — the site never looks broken. */
+/** Shown when the CMS is unreachable - the site never looks broken. */
 export const DEFAULT_SETTINGS: SiteSettings = {
   id: 1,
   site_name: "Joshua Omotayo",

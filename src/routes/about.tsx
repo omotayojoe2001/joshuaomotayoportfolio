@@ -8,13 +8,13 @@ import { GlobalReach } from "@/components/global-reach";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About — Who is Joshua? · Joshua Omotayo" },
+      { title: "About - Who is Joshua? · Joshua Omotayo" },
       {
         name: "description",
         content:
           "Joshua Omotayo is a web developer, technology educator and digital product builder from Nigeria, building websites and products for a global audience.",
       },
-      { property: "og:title", content: "About — Who is Joshua? · Joshua Omotayo" },
+      { property: "og:title", content: "About - Who is Joshua? · Joshua Omotayo" },
       { property: "og:type", content: "profile" },
     ],
   }),
@@ -61,7 +61,7 @@ function Portrait() {
           />
         ) : (
           <>
-            {/* Placeholder portrait area — replace by adding public/joshua.jpg. */}
+            {/* Placeholder portrait area - replace by adding public/joshua.jpg. */}
             <div className="grid-bg absolute inset-0" />
             <div
               aria-hidden
@@ -100,7 +100,7 @@ function AboutPage() {
                 </p>
                 <p className="max-w-xl">
                   He has built more than 70 websites and continues to explore the intersection of
-                  web development, artificial intelligence and digital products — building for
+                  web development, artificial intelligence and digital products - building for
                   clients and shipping products of his own.
                 </p>
               </div>
@@ -136,7 +136,7 @@ function AboutPage() {
           </h2>
           <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">
             Where a product is built matters less than the quality of the thinking behind it. Global
-            technology can be built from anywhere — and the work speaks for itself.
+            technology can be built from anywhere - and the work speaks for itself.
           </p>
         </Reveal>
       </Section>

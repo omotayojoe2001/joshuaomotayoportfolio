@@ -14,7 +14,7 @@ import type {
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
-    meta: [{ title: "Admin — Joshua Omotayo" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "Admin - Joshua Omotayo" }, { name: "robots", content: "noindex" }],
   }),
   component: AdminDashboard,
 });
@@ -359,7 +359,7 @@ function ProjectsManager() {
             </button>
             {save.isError && (
               <span className="text-sm text-red-400">
-                Save failed — check you are signed in as admin.
+                Save failed - check you are signed in as admin.
               </span>
             )}
           </div>
@@ -621,7 +621,7 @@ function ProductsManager() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="display text-2xl">PRODUCTS — /build</h2>
+        <h2 className="display text-2xl">PRODUCTS - /build</h2>
         <button
           className="border border-accent px-4 py-2 label-tech text-accent hover:bg-accent hover:text-accent-foreground"
           onClick={() => {
@@ -900,7 +900,7 @@ function ArticlesManager() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="display text-2xl">BLOG — /think</h2>
+        <h2 className="display text-2xl">BLOG - /think</h2>
         <button
           className="border border-accent px-4 py-2 label-tech text-accent hover:bg-accent hover:text-accent-foreground"
           onClick={() => {
@@ -1163,7 +1163,7 @@ function VideosManager() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="display text-2xl">BUILDING IN PUBLIC — VIDEOS</h2>
+        <h2 className="display text-2xl">BUILDING IN PUBLIC - VIDEOS</h2>
         <button
           className="border border-accent px-4 py-2 label-tech text-accent hover:bg-accent hover:text-accent-foreground"
           onClick={() => {
@@ -1280,7 +1280,7 @@ function SettingsManager() {
     <div className="mx-auto max-w-2xl">
       <h2 className="display text-2xl">SITE SETTINGS</h2>
       <p className="mt-2 text-sm text-muted-foreground">
-        Details shown across the site — contact email, location and social links.
+        Details shown across the site - contact email, location and social links.
       </p>
       <div className="mt-6 space-y-5">
         {field("site_name", "Site name")}
@@ -1354,7 +1354,7 @@ function InquiriesManager() {
   return (
     <div>
       <div className="flex items-center justify-between">
-        <h2 className="display text-2xl">INQUIRIES — /contact</h2>
+        <h2 className="display text-2xl">INQUIRIES - /contact</h2>
         <button className="label-tech text-accent hover:underline" onClick={() => list.refetch()}>
           REFRESH
         </button>

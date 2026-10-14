@@ -5,7 +5,7 @@ import { ogImage } from "@/lib/og";
 import type { Project } from "@/lib/content";
 
 function span(_layout: string, _i: number) {
-  // Joshua wants an even two-column grid — no single project spanning the row.
+  // Joshua wants an even two-column grid - no single project spanning the row.
   return "md:col-span-6";
 }
 
@@ -27,7 +27,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
   if (projects.length === 0) {
     return (
       <EmptyState>
-        Case studies are being written. New work lands here first —{" "}
+        Case studies are being written. New work lands here first -{" "}
         <Link to="/contact" className="text-accent link-underline">
           start a conversation
         </Link>{" "}
@@ -52,7 +52,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
               {p.featured_image || ogImage(p.url) ? (
                 <img
                   src={p.featured_image || ogImage(p.url)}
-                  alt={`${p.title} — ${p.category}`}
+                  alt={`${p.title} - ${p.category}`}
                   loading="lazy"
                   className="h-full w-full object-cover grayscale transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] group-hover:grayscale-0"
                 />
@@ -84,7 +84,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
             <p className="mt-3 label-tech">
               {[p.category, p.location, p.technologies?.slice(0, 2).join(" / ")]
                 .filter(Boolean)
-                .join(" — ")}
+                .join(" - ")}
             </p>
           </Link>
         </Reveal>

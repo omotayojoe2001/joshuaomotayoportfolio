@@ -8,13 +8,13 @@ import { useExperiments } from "@/lib/content";
 export const Route = createFileRoute("/lab")({
   head: () => ({
     meta: [
-      { title: "The Lab — Experiments · Joshua Omotayo" },
+      { title: "The Lab - Experiments · Joshua Omotayo" },
       {
         name: "description",
         content:
           "The Lab: experiments, AI prototypes, small interactions and unfinished ideas from Joshua Omotayo.",
       },
-      { property: "og:title", content: "The Lab — Experiments · Joshua Omotayo" },
+      { property: "og:title", content: "The Lab - Experiments · Joshua Omotayo" },
       { property: "og:type", content: "website" },
     ],
   }),

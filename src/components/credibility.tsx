@@ -7,7 +7,7 @@ const STATS = [
 
 /**
  * High-impact credibility strip. Numbers animate when they enter the viewport.
- * The "ideas" stat is intentionally open-ended (∞) — not a fabricated count.
+ * The "ideas" stat is intentionally open-ended (∞) - not a fabricated count.
  */
 export function Credibility() {
   return (

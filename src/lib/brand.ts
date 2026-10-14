@@ -1,5 +1,5 @@
 /**
- * Joshua's own products — distinct from client work in the `projects` table.
+ * Joshua's own products - distinct from client work in the `projects` table.
  * Content is fixed by the brand brief; each product keeps its own visual
  * identity while staying inside the black / white / teal system.
  */
@@ -45,7 +45,7 @@ export const PRODUCTS: Product[] = [
     name: "PlayGen",
     url: "https://www.playgen.com.ng/",
     domain: "playgen.com.ng",
-    position: "Earn Real Naira — Tasks & Quizzes",
+    position: "Earn Real Naira - Tasks & Quizzes",
     description:
       "Complete tasks, win sponsored quizzes and recharge your phone while earning money into your wallet. No gambling, no tricks.",
     cta: "Visit PlayGen",
@@ -58,7 +58,7 @@ export const PRODUCTS: Product[] = [
     domain: "wa.link/linkup-",
     position: "WhatsApp AI Chatbot",
     description:
-      "An AI chatbot that lives on WhatsApp — connecting people to what they need, right inside the app they already use. Built and shipped by Joshua.",
+      "An AI chatbot that lives on WhatsApp - connecting people to what they need, right inside the app they already use. Built and shipped by Joshua.",
     cta: "Chat with LinkUp",
     visual: "assistant",
     index: "04",
@@ -66,7 +66,7 @@ export const PRODUCTS: Product[] = [
   },
 ];
 
-/** Markets Joshua builds for — used by the global-reach section. */
+/** Markets Joshua builds for - used by the global-reach section. */
 export const MARKETS = [
   { country: "Nigeria", flag: "🇳🇬", code: "NG", note: "Home base" },
   { country: "Canada", flag: "🇨🇦", code: "CA", note: "Client work" },
@@ -85,7 +85,7 @@ export const CAPABILITIES = [
   {
     code: "02",
     title: "AI Integration & Automation",
-    body: "Integrating AI into websites, products and workflows — assistants and automations that make technology more useful and intelligent.",
+    body: "Integrating AI into websites, products and workflows - assistants and automations that make technology more useful and intelligent.",
     tags: ["LLMs", "Automation", "Assistants"],
   },
   {

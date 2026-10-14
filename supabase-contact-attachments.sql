@@ -1,5 +1,5 @@
 -- ============================================================
--- Joshua Omotayo portfolio — contact attachments + admin inquiries
+-- Joshua Omotayo portfolio - contact attachments + admin inquiries
 -- Run in Supabase Dashboard > SQL Editor after supabase-setup.sql.
 -- All statements are idempotent (safe to run more than once).
 -- ============================================================
@@ -9,7 +9,7 @@ alter table public.contact_submissions
   add column if not exists attachment text default '';
 
 -- 2) A PRIVATE bucket for uploaded documents. Not public-read, so a stranger
---    can't guess the URL — the admin panel opens them with a short-lived link.
+--    can't guess the URL - the admin panel opens them with a short-lived link.
 insert into storage.buckets (id, name, public)
 values ('attachments', 'attachments', false)
 on conflict (id) do nothing;

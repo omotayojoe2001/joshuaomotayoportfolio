@@ -7,13 +7,13 @@ import { useArticles } from "@/lib/content";
 export const Route = createFileRoute("/think/")({
   head: () => ({
     meta: [
-      { title: "Think — The Journal · Joshua Omotayo" },
+      { title: "Think - The Journal · Joshua Omotayo" },
       {
         name: "description",
         content:
           "Writing, ideas and experiments on web development, AI, technology and building digital products.",
       },
-      { property: "og:title", content: "Think — The Journal · Joshua Omotayo" },
+      { property: "og:title", content: "Think - The Journal · Joshua Omotayo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -39,7 +39,7 @@ function ThinkPage() {
         index="03"
         eyebrow="THINK"
         title="THE JOURNAL"
-        intro="Writing, ideas and experiments — web development, AI, technology and building."
+        intro="Writing, ideas and experiments - web development, AI, technology and building."
       />
       <Section className="pt-0">
         {categories.length > 0 && (
@@ -69,12 +69,12 @@ function ThinkPage() {
             DON'T JUST READ ABOUT IT. LEARN TO BUILD IT.
           </h2>
           <p className="mt-4 max-w-xl text-muted-foreground">
-            I teach people how to build with web technology and AI — from your first line of code to
+            I teach people how to build with web technology and AI - from your first line of code to
             shipping something real.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ArrowLink href="https://learn.genrev.ng" tone="accent">
-              Start learning — learn.genrev.ng
+              Start learning - learn.genrev.ng
             </ArrowLink>
             <ArrowLink to="/teach">See what I teach</ArrowLink>
             <ArrowLink to="/contact">Invite me to teach</ArrowLink>

@@ -26,7 +26,7 @@ export function FeaturedArticle({ article }: { article: Article }) {
             />
           ) : (
             <div className="grid-bg flex h-full w-full items-center justify-center">
-              <span className="label-tech">FEATURED — {article.category ?? "WRITING"}</span>
+              <span className="label-tech">FEATURED - {article.category ?? "WRITING"}</span>
             </div>
           )}
         </div>

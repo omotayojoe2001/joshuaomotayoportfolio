@@ -2,7 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { CAPABILITIES } from "@/lib/brand";
 
 /**
- * "What I do" — unconventional capability cards.
+ * "What I do" - unconventional capability cards.
  * Each card carries a teal sweep and an enlarging index on hover.
  */
 export function Capabilities() {

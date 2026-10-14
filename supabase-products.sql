@@ -1,5 +1,5 @@
 -- ============================================================
--- Products (the /build "Things I'm Building" showcase) — now editable from the admin panel.
+-- Products (the /build "Things I'm Building" showcase) - now editable from the admin panel.
 -- Run in Supabase Dashboard > SQL Editor. Idempotent (safe to re-run).
 -- Requires supabase-setup.sql to have run first (it creates set_updated_at + roles).
 -- ============================================================
@@ -55,7 +55,7 @@ insert into public.products (name, slug, url, position, description, cta, visual
   ('GoodDeed Network', 'gooddeed-network', 'https://gooddeednetwork.com', 'Technology for Social Good',
    'A technology-for-social-good initiative using technology to advocate for people and create positive social impact.',
    'Visit GoodDeed Network', 'impact', 'LIVE', 2, true),
-  ('PlayGen', 'playgen', 'https://www.playgen.com.ng/', 'Earn Real Naira — Tasks & Quizzes',
+  ('PlayGen', 'playgen', 'https://www.playgen.com.ng/', 'Earn Real Naira - Tasks & Quizzes',
    'Complete tasks, win sponsored quizzes and recharge your phone while earning money into your wallet. No gambling, no tricks.',
    'Visit PlayGen', 'business', 'LIVE · IN PROGRESS', 3, true),
   ('LinkUp', 'linkup', 'https://wa.link/linkup-', 'WhatsApp AI Chatbot',

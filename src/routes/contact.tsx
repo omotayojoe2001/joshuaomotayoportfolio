@@ -10,13 +10,13 @@ import { useSettings } from "@/lib/content";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact — Let's Build It · Joshua Omotayo" },
+      { title: "Contact - Let's Build It · Joshua Omotayo" },
       {
         name: "description",
         content:
           "Have a website, AI idea, digital product or technology problem you want to solve? Start a conversation with Joshua Omotayo.",
       },
-      { property: "og:title", content: "Contact — Let's Build It · Joshua Omotayo" },
+      { property: "og:title", content: "Contact - Let's Build It · Joshua Omotayo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -33,7 +33,7 @@ const PROJECT_TYPES = [
   "Other",
 ];
 
-const BUDGETS = ["< $1k", "$1k – $5k", "$5k – $15k", "$15k +", "Not sure yet"];
+const BUDGETS = ["< $1k", "$1k - $5k", "$5k - $15k", "$15k +", "Not sure yet"];
 
 const field =
   "w-full border border-border bg-background px-4 py-3 text-sm text-foreground transition-colors placeholder:text-muted-foreground/50 focus:border-accent focus:outline-none";
@@ -300,7 +300,7 @@ function ContactPage() {
                 <div className="mt-8 border-t border-border pt-6">
                   <h2 className="label-tech text-accent">BASED IN</h2>
                   <p className="mt-3 text-sm text-muted-foreground">
-                    Nigeria — building for clients worldwide.
+                    Nigeria - building for clients worldwide.
                   </p>
                 </div>
               </div>

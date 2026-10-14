@@ -16,7 +16,7 @@ import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
 
 const SITE_URL = "https://joshuaomotayo.com.ng";
-const DEFAULT_TITLE = "Joshua Omotayo — Web Developer, AI Builder & Technology Educator";
+const DEFAULT_TITLE = "Joshua Omotayo - Web Developer, AI Builder & Technology Educator";
 const DEFAULT_DESCRIPTION =
   "Websites, AI-powered experiences and digital products built from Nigeria for businesses and people around the world.";
 const DEFAULT_IMAGE = `${SITE_URL}/joshua.jpg`;

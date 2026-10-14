@@ -100,7 +100,7 @@ export function useUploadMedia() {
 
 /**
  * Upload a contact-form document to the private `attachments` bucket.
- * Returns the storage path (not a public URL) — the admin panel opens it with
+ * Returns the storage path (not a public URL) - the admin panel opens it with
  * a short-lived signed link, so uploaded briefs are never world-readable.
  */
 export async function uploadAttachment(file: File): Promise<string> {

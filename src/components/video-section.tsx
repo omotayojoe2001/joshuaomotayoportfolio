@@ -46,7 +46,7 @@ function VideoCard({ video }: { video: Video }) {
 }
 
 /**
- * WATCH / LEARN — YouTube surface. The channel URL is configurable in the CMS
+ * WATCH / LEARN - YouTube surface. The channel URL is configurable in the CMS
  * (site_settings.youtube_url); videos come from the `youtube_videos` table.
  */
 export function VideoSection() {

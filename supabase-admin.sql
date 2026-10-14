@@ -1,5 +1,5 @@
 -- ============================================================
--- Joshua Omotayo portfolio — admin prerequisites
+-- Joshua Omotayo portfolio - admin prerequisites
 -- Run this in Supabase Dashboard > SQL Editor after supabase-setup.sql.
 -- All statements are idempotent (safe to run more than once).
 -- ============================================================

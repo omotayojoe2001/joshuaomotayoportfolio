@@ -17,13 +17,13 @@ const TOPICS = [
 export const Route = createFileRoute("/teach")({
   head: () => ({
     meta: [
-      { title: "Teach — Technology & AI Education · Joshua Omotayo" },
+      { title: "Teach - Technology & AI Education · Joshua Omotayo" },
       {
         name: "description",
         content:
-          "Joshua Omotayo teaches web development, AI, AI integration and building digital products — helping people move from understanding technology to building with it.",
+          "Joshua Omotayo teaches web development, AI, AI integration and building digital products - helping people move from understanding technology to building with it.",
       },
-      { property: "og:title", content: "Teach — Technology & AI Education · Joshua Omotayo" },
+      { property: "og:title", content: "Teach - Technology & AI Education · Joshua Omotayo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -39,7 +39,7 @@ function TeachPage() {
         index="04"
         eyebrow="TEACH"
         title="I TEACH PEOPLE HOW TO BUILD WITH TECHNOLOGY."
-        intro="From understanding technology to actually building with it — web development, AI and digital products."
+        intro="From understanding technology to actually building with it - web development, AI and digital products."
       />
 
       <Section className="pt-0" index="01" label="THE PATH">
@@ -70,7 +70,7 @@ function TeachPage() {
             READY TO LEARN HOW TO BUILD WITH TECHNOLOGY AND AI?
           </h2>
           <p className="mt-4 max-w-xl text-muted-foreground">
-            Join the programme at Genrev Learning — or watch free lessons on my YouTube channel.
+            Join the programme at Genrev Learning - or watch free lessons on my YouTube channel.
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <ArrowLink href="https://learn.genrev.ng" tone="accent">

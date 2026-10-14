@@ -6,13 +6,13 @@ import { NowBoard } from "@/components/now-board";
 export const Route = createFileRoute("/build")({
   head: () => ({
     meta: [
-      { title: "Build — Things I'm Building · Joshua Omotayo" },
+      { title: "Build - Things I'm Building · Joshua Omotayo" },
       {
         name: "description",
         content:
-          "Products Joshua Omotayo is building: GenRev, GenRev AI and GoodDeed Network — business tools, an AI social media assistant and technology for social good.",
+          "Products Joshua Omotayo is building: GenRev, GenRev AI and GoodDeed Network - business tools, an AI social media assistant and technology for social good.",
       },
-      { property: "og:title", content: "Build — Things I'm Building · Joshua Omotayo" },
+      { property: "og:title", content: "Build - Things I'm Building · Joshua Omotayo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -31,7 +31,7 @@ function BuildPage() {
       <Section className="pt-0">
         <ProductShowcase />
       </Section>
-      <Section index="—" label="CURRENTLY">
+      <Section index="-" label="CURRENTLY">
         <div className="mb-10 max-w-xl">
           <h2 className="display text-3xl md:text-5xl">THE BUILD BOARD</h2>
           <p className="mt-4 text-muted-foreground">

@@ -6,13 +6,13 @@ import { useProjects } from "@/lib/content";
 export const Route = createFileRoute("/work/")({
   head: () => ({
     meta: [
-      { title: "Selected Work — Joshua Omotayo" },
+      { title: "Selected Work - Joshua Omotayo" },
       {
         name: "description",
         content:
           "Selected websites and digital experiences built for businesses and people across Nigeria, Canada, the United Kingdom and the United States.",
       },
-      { property: "og:title", content: "Selected Work — Joshua Omotayo" },
+      { property: "og:title", content: "Selected Work - Joshua Omotayo" },
       { property: "og:type", content: "website" },
     ],
   }),
@@ -45,7 +45,7 @@ function WorkPage() {
             <span className="text-foreground">
               AI chatbots, mobile applications and internal tools
             </span>{" "}
-            that are not listed here — for example a Data Server mobile application still on my own
+            that are not listed here - for example a Data Server mobile application still on my own
             device and not published to the Google Play Store. If there is something specific you
             want to see, ask and I will walk you through it.
           </p>

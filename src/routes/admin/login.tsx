@@ -4,7 +4,7 @@ import { signInWithPassword, useAuth } from "@/lib/admin";
 
 export const Route = createFileRoute("/admin/login")({
   head: () => ({
-    meta: [{ title: "Admin Sign In — Joshua Omotayo" }, { name: "robots", content: "noindex" }],
+    meta: [{ title: "Admin Sign In - Joshua Omotayo" }, { name: "robots", content: "noindex" }],
   }),
   component: AdminLoginPage,
 });
@@ -21,7 +21,7 @@ function AdminLoginPage() {
   const [error, setError] = useState<string | null>(null);
 
   if (session) {
-    // Already signed in — skip the form.
+    // Already signed in - skip the form.
     void router.navigate({ to: "/admin" });
   }
 

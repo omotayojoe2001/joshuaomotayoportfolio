@@ -5,7 +5,7 @@ import { PRODUCTS, type ProductVisual } from "@/lib/brand";
 import { ogImage } from "@/lib/og";
 import { useBuildProducts, type BuildProduct } from "@/lib/content";
 
-/** Unified shape used by the card — sourced from the CMS or the brand fallback. */
+/** Unified shape used by the card - sourced from the CMS or the brand fallback. */
 type DisplayProduct = {
   key: string;
   name: string;
@@ -65,7 +65,7 @@ function fromBrand(): DisplayProduct[] {
   }));
 }
 
-/** Abstract, on-brand product visuals — no stock imagery, no fabricated UI copy. */
+/** Abstract, on-brand product visuals - no stock imagery, no fabricated UI copy. */
 function Visual({ kind }: { kind: ProductVisual }) {
   const reduced = useReducedMotion();
 
@@ -132,7 +132,7 @@ function Visual({ kind }: { kind: ProductVisual }) {
     );
   }
 
-  // impact — a human-centered network of connected nodes
+  // impact - a human-centered network of connected nodes
   const nodes = [
     { x: 50, y: 22 },
     { x: 20, y: 50 },

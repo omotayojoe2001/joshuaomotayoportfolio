@@ -1,5 +1,5 @@
 -- ============================================================
--- Blog (Think) + Site Settings extras — makes the admin panel fully cover your requests.
+-- Blog (Think) + Site Settings extras - makes the admin panel fully cover your requests.
 -- Run in Supabase Dashboard > SQL Editor. Idempotent (safe to re-run).
 -- Adds: a YouTube link on articles (video-with-the-article), and a location on site settings.
 -- Requires supabase-setup.sql to have run first.

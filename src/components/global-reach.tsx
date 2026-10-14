@@ -107,7 +107,7 @@ function ConnectionMap() {
         fill="var(--foreground)"
         fontSize="10"
       >
-        NIGERIA — HUB
+        NIGERIA - HUB
       </text>
     </svg>
   );

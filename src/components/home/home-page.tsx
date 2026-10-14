@@ -34,17 +34,17 @@ export function HomePage() {
     <>
       <Hero />
 
-      {/* 03 — Credibility */}
+      {/* 03 - Credibility */}
       <Section>
         <Credibility />
       </Section>
 
-      {/* 04 — What I do */}
+      {/* 04 - What I do */}
       <Section index="01" label="WHAT I DO">
         <Capabilities />
       </Section>
 
-      {/* 05 — Selected work */}
+      {/* 05 - Selected work */}
       <Section index="02" label="SELECTED WORK">
         <BlockHead
           title="SELECTED WORK"
@@ -54,12 +54,12 @@ export function HomePage() {
         <ProjectGrid projects={projects ?? []} />
       </Section>
 
-      {/* 06 — Global reach */}
+      {/* 06 - Global reach */}
       <Section index="03" label="GLOBAL REACH">
         <GlobalReach />
       </Section>
 
-      {/* 07 — Things I'm building */}
+      {/* 07 - Things I'm building */}
       <Section index="04" label="THINGS I'M BUILDING">
         <BlockHead
           title="THINGS I'M BUILDING"
@@ -69,7 +69,7 @@ export function HomePage() {
         <ProductShowcase />
       </Section>
 
-      {/* 08 — Technology / AI */}
+      {/* 08 - Technology / AI */}
       <Section index="05" label="TECHNOLOGY / AI">
         <div className="grid gap-10 lg:grid-cols-12">
           <Reveal className="lg:col-span-7">
@@ -79,7 +79,7 @@ export function HomePage() {
           </Reveal>
           <Reveal delay={0.1} className="lg:col-span-5">
             <p className="text-base leading-relaxed text-muted-foreground">
-              AI is not a gimmick layered on top. It is part of how I design and build — websites
+              AI is not a gimmick layered on top. It is part of how I design and build - websites
               that respond, products that assist, workflows that think. Useful technology, built
               intentionally from idea to interface.
             </p>
@@ -94,7 +94,7 @@ export function HomePage() {
         </div>
       </Section>
 
-      {/* 09 — Think / journal */}
+      {/* 09 - Think / journal */}
       <Section index="06" label="THINK">
         <BlockHead
           title="FROM THE JOURNAL"
@@ -104,7 +104,7 @@ export function HomePage() {
         <ArticleList articles={articles ?? []} />
       </Section>
 
-      {/* 10 — Teach */}
+      {/* 10 - Teach */}
       <Section index="07" label="TEACH">
         <BlockHead
           title={
@@ -119,12 +119,12 @@ export function HomePage() {
         <LearningPath />
       </Section>
 
-      {/* 11 — YouTube */}
+      {/* 11 - YouTube */}
       <Section index="08" label="WATCH / LEARN">
         <VideoSection />
       </Section>
 
-      {/* 12 — Now */}
+      {/* 12 - Now */}
       <Section index="09" label="NOW">
         <BlockHead
           title="CURRENTLY"
@@ -133,7 +133,7 @@ export function HomePage() {
         <NowBoard />
       </Section>
 
-      {/* 13 — Final CTA */}
+      {/* 13 - Final CTA */}
       <FinalCta />
     </>
   );

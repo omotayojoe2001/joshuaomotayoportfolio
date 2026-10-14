@@ -5,7 +5,7 @@ import type { Project } from "@/lib/content";
  *
  * This is the single source of truth for the work shown on /work. The same
  * records are also emitted as an SQL seed (drizzle/migrations/0001_projects_seed.sql)
- * so the Supabase `projects` table can be kept in sync — when the table answers,
+ * so the Supabase `projects` table can be kept in sync - when the table answers,
  * its rows win; when it is empty or unreachable, these records render instead.
  */
 export type ProjectSeed = Project;
@@ -55,13 +55,13 @@ export const seedProjects: Project[] = [
     title: "Wealthtiv",
     slug: "wealthtiv",
     description:
-      "Everything finance — from knowing where to start, to knowing where to put your money. We teach it, we show it, we point you in the right direction.",
+      "Everything finance - from knowing where to start, to knowing where to put your money. We teach it, we show it, we point you in the right direction.",
     overview:
       "Wealthtiv is the finance hub of the Acorn ecosystem: education, guidance and signposting in one place, without the jargon or the hard sell that usually surrounds money advice.",
     problem:
       "Most people do not fail at finance because they lack information; they fail because the information arrives in a language and a format they cannot act on. The site had to lower that barrier before asking for anything.",
     approach:
-      "We organised the site around the question people actually arrive with — 'where do I start?' — rather than product categories. A staged path moves from basics, to budgeting, to saving, to investing, with a clear next step at every level.",
+      "We organised the site around the question people actually arrive with - 'where do I start?' - rather than product categories. A staged path moves from basics, to budgeting, to saving, to investing, with a clear next step at every level.",
     design_direction:
       "Calm and trustworthy: a warm neutral base, deep green as the growth accent, generous type and flat surfaces. No stock images of handshakes or gold coins.",
     development:
@@ -85,13 +85,13 @@ export const seedProjects: Project[] = [
     title: "Wealthtiv Coach",
     slug: "wealthtiv-coach",
     description:
-      "Simple, practical strategies to earn more, budget better, save consistently and invest with confidence — guided by a real coach, supported by an AI that never sleeps.",
+      "Simple, practical strategies to earn more, budget better, save consistently and invest with confidence - guided by a real coach, supported by an AI that never sleeps.",
     overview:
       "The coaching arm of Wealthtiv pairs human accountability with always-on AI guidance. The site sells a relationship and a routine, not a course library.",
     problem:
       "People had tried apps and courses and stalled. What was missing was someone who notices you skipped two weeks. The platform needed to show that a human is in the loop, while the AI handles the 11pm question.",
     approach:
-      "Four pillars — earn, budget, save, invest — each with a plain-language strategy and the first action. Alongside them, the coach/AI split is shown explicitly: what the coach decides, what the assistant handles, what you actually do each week.",
+      "Four pillars - earn, budget, save, invest - each with a plain-language strategy and the first action. Alongside them, the coach/AI split is shown explicitly: what the coach decides, what the assistant handles, what you actually do each week.",
     design_direction:
       "Editorial and quiet. A restrained palette, large readable numbers, and conversation-style snippets that make the AI feel like a chat thread rather than a dashboard.",
     development:
@@ -99,7 +99,7 @@ export const seedProjects: Project[] = [
     outcome:
       "A page that converts on clarity: visitors understand the cadence, the cost and the difference between the coach and the assistant before they enquire.",
     reflection:
-      "The honest framing did the heavy lifting — 'an AI that never sleeps' is a support claim, not a substitute for advice, and the page says so.",
+      "The honest framing did the heavy lifting - 'an AI that never sleeps' is a support claim, not a substitute for advice, and the page says so.",
     category: "Fintech",
     year: "2026",
     client: "Wealthtiv",
@@ -112,22 +112,22 @@ export const seedProjects: Project[] = [
   }),
   build({
     id: "7f1c0a10-0000-4000-8000-000000000004",
-    title: "LinkUp — WhatsApp Chatbot",
+    title: "LinkUp - WhatsApp Chatbot",
     slug: "linkup-whatsapp-chatbot",
     description:
-      "An AI chatbot that lives on WhatsApp — connecting people to what they need inside the app they already use. One tap, no download.",
+      "An AI chatbot that lives on WhatsApp - connecting people to what they need inside the app they already use. One tap, no download.",
     overview:
       "LinkUp meets people where they already are. Instead of asking anyone to install another app, it puts a helpful AI assistant directly inside WhatsApp, reachable through a single tap-to-chat link.",
     problem:
       "The best tool in the world is useless if nobody opens it. Adoption dies at the download button, so the assistant had to live in the one app people already check a hundred times a day.",
     approach:
-      "A conversation-first design: the entire experience is a chat thread. Someone messages what they need and the AI responds — no menus to learn, no onboarding, no account to create before getting value.",
+      "A conversation-first design: the entire experience is a chat thread. Someone messages what they need and the AI responds - no menus to learn, no onboarding, no account to create before getting value.",
     design_direction:
       "Familiar and frictionless. It borrows WhatsApp's own conversational grammar so it feels like messaging a person, not operating software.",
     development:
       "Built the AI chat layer that understands requests and answers helpfully, wired to WhatsApp so a single wa.link opens the conversation with zero setup.",
     outcome:
-      "Shipped and live on WhatsApp behind one tap-to-chat link — reachable the moment someone taps it.",
+      "Shipped and live on WhatsApp behind one tap-to-chat link - reachable the moment someone taps it.",
     reflection:
       "Distribution beat features. Putting the assistant inside WhatsApp removed the only barrier that actually mattered: getting people to show up.",
     category: "AI Chatbot",
@@ -155,7 +155,7 @@ export const seedProjects: Project[] = [
     approach:
       "A layered structure: a short statement of what Acorn is, the four sectors as equal-weight cards, and each platform named with its own live link. The parent stays neutral so the products keep their voices.",
     design_direction:
-      "Corporate but warm — an earth-toned accent, strong grid, generous white space and a restrained set of geometric marks instead of stock photography.",
+      "Corporate but warm - an earth-toned accent, strong grid, generous white space and a restrained set of geometric marks instead of stock photography.",
     development:
       "Static, SEO-first build with a typed registry of the ecosystem, so adding a platform is a one-line data change that propagates to the grid, the footer and the sitemap.",
     outcome:
@@ -176,13 +176,13 @@ export const seedProjects: Project[] = [
     title: "PlayGen",
     slug: "playgen",
     description:
-      "Earn real naira completing tasks, winning sponsored quizzes and recharging your phone — no gambling, no tricks, money straight into your wallet.",
+      "Earn real naira completing tasks, winning sponsored quizzes and recharging your phone - no gambling, no tricks, money straight into your wallet.",
     overview:
       "PlayGen turns attention into small, real rewards. The site's job is to overcome the first instinct anyone has toward an earning app in Nigeria: that it is a scam.",
     problem:
       "Users have been burned by apps that promise payout and then hide a withdrawal threshold. Every word on the page had to be verifiable, and the mechanics had to be legible in seconds.",
     approach:
-      "Three earning paths — tasks, sponsored quizzes, airtime — each with a plain explanation and a screenshot of the wallet. The anti-gambling position is stated in the headline, and payout proof sits above the fold rather than buried in an FAQ.",
+      "Three earning paths - tasks, sponsored quizzes, airtime - each with a plain explanation and a screenshot of the wallet. The anti-gambling position is stated in the headline, and payout proof sits above the fold rather than buried in an FAQ.",
     design_direction:
       "Playful and high-contrast, with a mobile-first frame: the app mockups are the artwork, and the palette is pulled straight from them.",
     development:
@@ -209,7 +209,7 @@ export const seedProjects: Project[] = [
     overview:
       "An editorial portal built around reading rather than scrolling: quotations, essays and reflections, organised so a visitor can arrive curious and leave with something worth keeping.",
     problem:
-      "Inspirational content sites are usually infinite feeds optimised for ad impressions. This one needed the opposite — calm pacing, real attribution and a structure that rewards returning to a piece.",
+      "Inspirational content sites are usually infinite feeds optimised for ad impressions. This one needed the opposite - calm pacing, real attribution and a structure that rewards returning to a piece.",
     approach:
       "A topic-and-author index in place of a feed, curated collections per theme, and a piece layout with typographic hierarchy built for long reading. Search handles the 'I remember a line but not the source' case.",
     design_direction:
@@ -234,15 +234,15 @@ export const seedProjects: Project[] = [
     title: "Cravings Delight",
     slug: "cravings-delight",
     description:
-      "Premium African kitchen in Canada — soup and meal bowls built to order from premium ingredients, curated with accuracy and precision.",
+      "Premium African kitchen in Canada - soup and meal bowls built to order from premium ingredients, curated with accuracy and precision.",
     overview:
       "A preorder food service where every bowl is customised to taste. The website carries the two things a customer decides on in thirty seconds: what is actually in the food, and when it will be ready.",
     problem:
-      "Customisable menus break most simple sites — options multiply, the kitchen gets ambiguous orders, and customers guess at portions and spice. The order had to be as precise as the kitchen.",
+      "Customisable menus break most simple sites - options multiply, the kitchen gets ambiguous orders, and customers guess at portions and spice. The order had to be as precise as the kitchen.",
     approach:
       "A guided bowl builder: base, protein, heat level, sides and quantity, with each choice shown in plain language and a running total. Menu items are photographed honestly, and preorder windows are stated up front rather than at checkout.",
     design_direction:
-      "Appetite first — dark plates, warm accents, full-bleed food photography and minimal chrome. Type stays quiet so the bowls lead.",
+      "Appetite first - dark plates, warm accents, full-bleed food photography and minimal chrome. Type stays quiet so the bowls lead.",
     development:
       "Built the ordering layer with customisation state, pickup/delivery windows, and payment or confirmation handoff, plus a lightweight back view of orders for the kitchen.",
     outcome:
@@ -263,7 +263,7 @@ export const seedProjects: Project[] = [
     title: "Heritage Builds",
     slug: "heritage-builds",
     description:
-      "Premium stainless steel railing systems in AISI 304 and 316 grade — built to last, specified with confidence.",
+      "Premium stainless steel railing systems in AISI 304 and 316 grade - built to last, specified with confidence.",
     overview:
       "A product-led site for architectural ironmongery: railing systems, grades, finishes and specifications, presented so a homeowner, a fitter and a specifier all get the right answer on the same page.",
     problem:
@@ -292,13 +292,13 @@ export const seedProjects: Project[] = [
     title: "Mitalgic",
     slug: "mitalgic",
     description:
-      "Designing success — an international engineering consultancy delivering turnkey projects, maintenance and industrial services since 2015.",
+      "Designing success - an international engineering consultancy delivering turnkey projects, maintenance and industrial services since 2015.",
     overview:
       "Mitalgic sells capability to procurement teams and project owners. The site presents the consultancy, the service lines, the sector record and a single route into a conversation.",
     problem:
       "Engineering firms with a long private record usually present as a list of services and a phone number. Nothing on the page answers the buyer's real question: have you delivered something like mine, and can you still be reached in eighteen months?",
     approach:
-      "Structure by mandate — turnkey delivery, maintenance, asset and field services — then sector by sector evidence, with dates and geography, so a reader maps their own project onto the record without hunting for it.",
+      "Structure by mandate - turnkey delivery, maintenance, asset and field services - then sector by sector evidence, with dates and geography, so a reader maps their own project onto the record without hunting for it.",
     design_direction:
       "Industrial precision: steel blue and graphite, sharp geometry, wide margins, and typography set like a technical document rather than a startup page.",
     development:
@@ -320,11 +320,11 @@ export const seedProjects: Project[] = [
     title: "Ariseslg",
     slug: "ariseslg",
     description:
-      "Empowering business with data-driven insights — analytics, reporting and decision support for growing teams.",
+      "Empowering business with data-driven insights - analytics, reporting and decision support for growing teams.",
     overview:
       "Ariseslg is a data consultancy. Its website has to demonstrate the discipline it sells: clean structure, measurable claims and reporting that a non-analyst can read.",
     problem:
-      "Analytics services are typically pitched in abstraction — dashboards, pipelines, KPIs — which means a business owner cannot tell what they would actually receive or decide with it.",
+      "Analytics services are typically pitched in abstraction - dashboards, pipelines, KPIs - which means a business owner cannot tell what they would actually receive or decide with it.",
     approach:
       "Lead with the decision, not the dataset. Each engagement type is framed as a question a manager is stuck on, followed by the method, the deliverable and the cadence of the reporting.",
     design_direction:
@@ -349,7 +349,7 @@ export const seedProjects: Project[] = [
     title: "Afioos Global Services",
     slug: "afioos-global-services",
     description:
-      "A multi-service global firm — sourcing, logistics, support and business services — presented with one clear voice.",
+      "A multi-service global firm - sourcing, logistics, support and business services - presented with one clear voice.",
     overview:
       "Afioos operates across several service lines and geographies. The site gives each line its own entry point while keeping a single, credible company story behind them.",
     problem:
@@ -380,13 +380,13 @@ export const seedProjects: Project[] = [
     description:
       "Cleaning, staffing and property support services under one roof, with a separate clear path into each.",
     overview:
-      "Naejay is a services company whose difficulty is variety: several audiences — facilities managers, households, employers — all landing on the same homepage and each needing a different next step.",
+      "Naejay is a services company whose difficulty is variety: several audiences - facilities managers, households, employers - all landing on the same homepage and each needing a different next step.",
     problem:
       "A single contact form at the end of a mixed services page produces unqualified enquiries and slow follow-up. The site had to route people before it asked them for anything.",
     approach:
       "Service-first navigation with dedicated landing pages per offering, each carrying its own scope, coverage area, proof and enquiry form. Shared trust elements repeat across pages so the brand stays one piece.",
     design_direction:
-      "Clean and dependable — bright whitespace, a single confident accent, iconography that labels rather than decorates, and imagery of actual crews at work.",
+      "Clean and dependable - bright whitespace, a single confident accent, iconography that labels rather than decorates, and imagery of actual crews at work.",
     development:
       "Generated from a service model with per-page SEO metadata, quote forms that tag the enquiry by service and urgency, and fast static delivery.",
     outcome:
@@ -411,7 +411,7 @@ export const seedProjects: Project[] = [
     overview:
       "Dezeclean needed to be found locally, understood instantly and hired without a phone call being the only option. The site handles all three in one short scroll.",
     problem:
-      "Local service sites tend to be a logo, a slider and a phone number in small print — none of which answers 'will you do my kind of job, and what will it cost'.",
+      "Local service sites tend to be a logo, a slider and a phone number in small print - none of which answers 'will you do my kind of job, and what will it cost'.",
     approach:
       "Service grid up front (residential, move-out, office, recurring), each with what is included and what it is not, then a pricing estimator and a request-a-visit form that captures property size and condition.",
     design_direction:
@@ -421,7 +421,7 @@ export const seedProjects: Project[] = [
     outcome:
       "Booked visits with the property details already supplied, plus a page that actually ranks for the area it serves.",
     reflection:
-      "Local SEO is mostly honesty: real service names, real coverage, real prices — the things most competitor pages leave out.",
+      "Local SEO is mostly honesty: real service names, real coverage, real prices - the things most competitor pages leave out.",
     category: "Services Website",
     year: "2025",
     client: "Dezeclean Services",
@@ -436,7 +436,7 @@ export const seedProjects: Project[] = [
     title: "Neatify Cleaning",
     slug: "neatify-cleaning",
     description:
-      "Recurring home cleaning, booked by plan — weekly, fortnightly or monthly — with a straightforward quote path.",
+      "Recurring home cleaning, booked by plan - weekly, fortnightly or monthly - with a straightforward quote path.",
     overview:
       "Neatify sells continuity rather than one-off visits. The site is organised around plans and frequency, so the subscription decision is the default one.",
     problem:
@@ -471,7 +471,7 @@ export const seedProjects: Project[] = [
     problem:
       "Quote forms with eleven fields lose most of the people who were ready to book. The business needed a first contact that costs the customer five seconds.",
     approach:
-      "One question at a time: home type, size, service, date — then details if they want to give them. Trust is carried by named services, clear inclusions and reviews placed at the decision points, not in a sidebar.",
+      "One question at a time: home type, size, service, date - then details if they want to give them. Trust is carried by named services, clear inclusions and reviews placed at the decision points, not in a sidebar.",
     design_direction:
       "Fresh and reassuring: white space, a single clean accent, soft geometry and generous tap targets, with a layout that stays composed on a one-handed phone.",
     development:

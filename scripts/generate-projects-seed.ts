@@ -38,7 +38,7 @@ const rows = seedProjects.map(
     ")",
 );
 
-const sql = `-- projects seed — generated from src/lib/data/projects.seed.ts
+const sql = `-- projects seed - generated from src/lib/data/projects.seed.ts
 -- do not edit by hand; regenerate with: npx tsx scripts/generate-projects-seed.ts
 
 insert into public.projects (

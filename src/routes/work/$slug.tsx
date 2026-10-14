@@ -26,9 +26,9 @@ export const Route = createFileRoute("/work/$slug")({
   },
   head: ({ loaderData }) => {
     const p = loaderData?.project;
-    const title = p ? `${p.title} — Case Study · Joshua Omotayo` : "Case Study · Joshua Omotayo";
+    const title = p ? `${p.title} - Case Study · Joshua Omotayo` : "Case Study · Joshua Omotayo";
     const description =
-      p?.description || "A selected case study by Joshua Omotayo — web developer and AI builder.";
+      p?.description || "A selected case study by Joshua Omotayo - web developer and AI builder.";
     const meta: Record<string, string>[] = [
       { title },
       { name: "description", content: description },
@@ -186,7 +186,7 @@ function CaseStudyPage() {
               <div className="overflow-hidden border border-border bg-surface">
                 <img
                   src={src}
-                  alt={`${project.title} — screenshot ${i + 1}`}
+                  alt={`${project.title} - screenshot ${i + 1}`}
                   loading="lazy"
                   className="h-full w-full object-cover transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] hover:scale-[1.03]"
                 />
