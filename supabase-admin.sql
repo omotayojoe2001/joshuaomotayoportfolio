@@ -45,6 +45,9 @@ create policy "media admin delete" on storage.objects
 
 -- 3) Fill in your details (EDIT THE VALUES, then run). These power the
 --    Contact "DIRECT" email, footer links, availability and location text.
+--    Make sure the row + optional columns exist first (safe to re-run).
+insert into public.site_settings (id) values (1) on conflict (id) do nothing;
+alter table public.site_settings add column if not exists tiktok_url text default '';
 update public.site_settings set
   id = 1,
   site_name = 'Joshua Omotayo',
