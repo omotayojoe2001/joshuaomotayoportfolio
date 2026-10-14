@@ -30,5 +30,6 @@ update public.site_settings set email = 'playgen.ng@gmail.com'
 update public.now_items set label = 'Building Arise SLG' where label = 'Building GenRev';
 
 -- 6) Retire work that pointed at the dead genrev.ng site:
---    the GenRev AI Autopilot case study (the GenRev AI product on /build stays, on genrev.app).
-delete from public.projects where slug = 'genrev-ai-autopilot';
+--    the GenRev AI Autopilot + GenRev Learning case studies (LinkUp replaces Learning;
+--    the GenRev AI product on /build stays, on genrev.app).
+delete from public.projects where slug in ('genrev-ai-autopilot', 'genrev-learning');
