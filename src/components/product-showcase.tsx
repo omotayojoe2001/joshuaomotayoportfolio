@@ -1,7 +1,68 @@
 import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion-primitives";
 import { ArrowLink } from "@/components/site-sections";
-import { PRODUCTS, type Product, type ProductVisual } from "@/lib/brand";
+import { PRODUCTS, type ProductVisual } from "@/lib/brand";
+import { useBuildProducts, type BuildProduct } from "@/lib/content";
+
+/** Unified shape used by the card — sourced from the CMS or the brand fallback. */
+type DisplayProduct = {
+  key: string;
+  name: string;
+  url: string;
+  domain: string;
+  position: string;
+  description: string;
+  cta: string;
+  visual: ProductVisual;
+  index: string;
+  image?: string | null;
+  status?: string | null;
+};
+
+const VISUALS: ProductVisual[] = ["business", "assistant", "impact"];
+
+function hostOf(url: string) {
+  try {
+    return new URL(url).hostname.replace(/^www\./, "");
+  } catch {
+    return url;
+  }
+}
+
+function fromCms(p: BuildProduct, i: number): DisplayProduct {
+  const visual: ProductVisual = VISUALS.includes(p.visual as ProductVisual)
+    ? (p.visual as ProductVisual)
+    : (VISUALS[i % VISUALS.length] ?? "business");
+  return {
+    key: p.id,
+    name: p.name,
+    url: p.url || "#",
+    domain: hostOf(p.url || ""),
+    position: p.position || "",
+    description: p.description || "",
+    cta: p.cta || `Visit ${p.name}`,
+    visual,
+    index: String(i + 1).padStart(2, "0"),
+    image: p.image,
+    status: p.status,
+  };
+}
+
+function fromBrand(): DisplayProduct[] {
+  return PRODUCTS.map((p) => ({
+    key: p.domain,
+    name: p.name,
+    url: p.url,
+    domain: p.domain,
+    position: p.position,
+    description: p.description,
+    cta: p.cta,
+    visual: p.visual,
+    index: p.index,
+    image: "",
+    status: "LIVE",
+  }));
+}
 
 /** Abstract, on-brand product visuals — no stock imagery, no fabricated UI copy. */
 function Visual({ kind }: { kind: ProductVisual }) {
@@ -121,7 +182,7 @@ function Visual({ kind }: { kind: ProductVisual }) {
   );
 }
 
-function ProductCard({ product, i }: { product: Product; i: number }) {
+function ProductCard({ product, i }: { product: DisplayProduct; i: number }) {
   const flip = i % 2 === 1;
   return (
     <Reveal delay={i * 0.05}>
@@ -131,8 +192,22 @@ function ProductCard({ product, i }: { product: Product; i: number }) {
             flip ? "md:order-2 md:border-l" : "md:border-r"
           }`}
         >
-          <Visual kind={product.visual} />
+          {product.image ? (
+            <img
+              src={product.image}
+              alt={product.name}
+              loading="lazy"
+              className="absolute inset-0 h-full w-full object-cover"
+            />
+          ) : (
+            <Visual kind={product.visual} />
+          )}
           <span className="absolute left-4 top-4 label-tech text-accent">{product.index}</span>
+          {product.status && (
+            <span className="absolute right-4 top-4 border border-accent/40 bg-background/70 px-2 py-1 label-tech text-[10px] text-accent backdrop-blur">
+              {product.status}
+            </span>
+          )}
         </div>
         <div className="flex flex-col justify-center gap-5 p-7 md:p-10">
           <span className="label-tech text-accent">{product.position}</span>
@@ -140,7 +215,9 @@ function ProductCard({ product, i }: { product: Product; i: number }) {
           <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
             {product.description}
           </p>
-          <span className="font-mono text-xs text-muted-foreground/70">{product.domain}</span>
+          {product.domain && (
+            <span className="font-mono text-xs text-muted-foreground/70">{product.domain}</span>
+          )}
           <div>
             <ArrowLink href={product.url} tone="accent">
               {product.cta}
@@ -153,10 +230,13 @@ function ProductCard({ product, i }: { product: Product; i: number }) {
 }
 
 export function ProductShowcase() {
+  const { data } = useBuildProducts();
+  const cms = data ?? [];
+  const products = cms.length > 0 ? cms.map(fromCms) : fromBrand();
   return (
     <div className="border-t border-border">
-      {PRODUCTS.map((p, i) => (
-        <ProductCard key={p.domain} product={p} i={i} />
+      {products.map((p, i) => (
+        <ProductCard key={p.key} product={p} i={i} />
       ))}
     </div>
   );

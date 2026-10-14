@@ -10,6 +10,22 @@ export type Testimonial = Tables<"testimonials">;
 export type Video = Tables<"youtube_videos">;
 export type NowItem = Tables<"now_items">;
 export type SiteSettings = Tables<"site_settings">;
+export type BuildProduct = Tables<"products">;
+
+export function useBuildProducts() {
+  return useQuery({
+    queryKey: ["products"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .eq("published", true)
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data as BuildProduct[];
+    },
+  });
+}
 
 export function useProjects(limit?: number) {
   return useQuery({

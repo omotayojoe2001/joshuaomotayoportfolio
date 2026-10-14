@@ -3,7 +3,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { signOut, useAuth, useIsAdmin, uploadMedia } from "@/lib/admin";
-import type { Project } from "@/lib/content";
+import type { BuildProduct, Project } from "@/lib/content";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -418,6 +418,281 @@ function ProjectsManager() {
   );
 }
 
+type PDraft = Omit<BuildProduct, "id" | "created_at" | "updated_at">;
+
+const EMPTY_PRODUCT: PDraft = {
+  name: "",
+  slug: "",
+  url: "",
+  position: "",
+  description: "",
+  cta: "",
+  image: "",
+  visual: "business",
+  status: "LIVE",
+  sort_order: 0,
+  published: true,
+};
+
+function ProductsManager() {
+  const queryClient = useQueryClient();
+  const [editing, setEditing] = useState<PDraft | null>(null);
+  const [isNew, setIsNew] = useState(false);
+  const [uploading, setUploading] = useState(false);
+
+  const list = useQuery({
+    queryKey: ["admin-products"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("products")
+        .select("*")
+        .order("sort_order", { ascending: true });
+      if (error) throw error;
+      return data as BuildProduct[];
+    },
+  });
+
+  const save = useMutation({
+    mutationFn: async (draft: PDraft) => {
+      if (isNew) {
+        const { error } = await supabase.from("products").insert(draft);
+        if (error) throw error;
+      } else {
+        const { error } = await supabase.from("products").update(draft).eq("slug", draft.slug);
+        if (error) throw error;
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+      setEditing(null);
+    },
+  });
+
+  const remove = useMutation({
+    mutationFn: async (slug: string) => {
+      const { error } = await supabase.from("products").delete().eq("slug", slug);
+      if (error) throw error;
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["admin-products"] });
+      queryClient.invalidateQueries({ queryKey: ["products"] });
+    },
+  });
+
+  const set = (patch: Partial<PDraft>) => setEditing((d) => (d ? { ...d, ...patch } : d));
+
+  async function onUpload(file?: File) {
+    if (!file) return;
+    setUploading(true);
+    try {
+      set({ image: await uploadMedia(file) });
+    } finally {
+      setUploading(false);
+    }
+  }
+
+  if (editing) {
+    return (
+      <div className="mx-auto max-w-2xl">
+        <div className="flex items-center justify-between">
+          <h2 className="display text-2xl">{isNew ? "NEW PRODUCT" : "EDIT PRODUCT"}</h2>
+          <button className="label-tech text-accent" onClick={() => setEditing(null)}>
+            ← BACK
+          </button>
+        </div>
+        <div className="mt-6 space-y-5">
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field
+              label="Name"
+              value={editing.name}
+              onChange={(v) =>
+                set({ name: v, slug: isNew || !editing.slug ? slugify(v) : editing.slug })
+              }
+            />
+            <Field label="Slug" value={editing.slug} onChange={(v) => set({ slug: v })} />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field label="Live URL" value={editing.url ?? ""} onChange={(v) => set({ url: v })} />
+            <Field
+              label="Position / tagline"
+              value={editing.position ?? ""}
+              onChange={(v) => set({ position: v })}
+            />
+          </div>
+          <Field
+            label="Description"
+            value={editing.description ?? ""}
+            area
+            onChange={(v) => set({ description: v })}
+          />
+          <div className="grid gap-5 sm:grid-cols-2">
+            <Field label="CTA text" value={editing.cta ?? ""} onChange={(v) => set({ cta: v })} />
+            <Field
+              label="Status (LIVE / IN PROGRESS / COMING SOON)"
+              value={editing.status ?? ""}
+              onChange={(v) => set({ status: v })}
+            />
+          </div>
+          <div className="grid gap-5 sm:grid-cols-3">
+            <label className="block">
+              <span className={label}>VISUAL STYLE</span>
+              <select
+                className={`${input} mt-1.5`}
+                value={editing.visual ?? "business"}
+                onChange={(e) => set({ visual: e.target.value })}
+              >
+                {["business", "assistant", "impact"].map((o) => (
+                  <option key={o} value={o}>
+                    {o}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <Field
+              label="Sort order"
+              type="number"
+              value={String(editing.sort_order)}
+              onChange={(v) => set({ sort_order: Number(v) || 0 })}
+            />
+            <label className="flex items-center gap-2 self-end pb-1">
+              <input
+                type="checkbox"
+                checked={!!editing.published}
+                onChange={(e) => set({ published: e.target.checked })}
+              />
+              <span className={label}>PUBLISHED</span>
+            </label>
+          </div>
+          <div>
+            <span className={label}>IMAGE / SCREENSHOT</span>
+            <div className="mt-1.5 flex gap-2">
+              <input
+                className={input}
+                value={editing.image ?? ""}
+                placeholder="https://… or upload"
+                onChange={(e) => set({ image: e.target.value })}
+              />
+              <label className="shrink-0 border border-border px-3 py-2 label-tech cursor-pointer hover:border-accent hover:text-accent">
+                {uploading ? "…" : "UPLOAD"}
+                <input
+                  type="file"
+                  accept="image/*"
+                  className="hidden"
+                  onChange={(e) => onUpload(e.target.files?.[0])}
+                />
+              </label>
+            </div>
+            {editing.image && (
+              <img
+                src={editing.image}
+                alt=""
+                className="mt-3 h-32 w-full border border-border object-cover"
+              />
+            )}
+          </div>
+          <div className="flex items-center gap-3 pt-2">
+            <button
+              className="border border-accent px-5 py-2.5 label-tech text-accent hover:bg-accent hover:text-accent-foreground disabled:opacity-50"
+              disabled={save.isPending || !editing.name || !editing.slug}
+              onClick={() => save.mutate(editing)}
+            >
+              {save.isPending ? "SAVING…" : "SAVE PRODUCT"}
+            </button>
+            <button
+              className="label-tech text-muted-foreground hover:text-foreground"
+              onClick={() => setEditing(null)}
+            >
+              CANCEL
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <h2 className="display text-2xl">PRODUCTS — /build</h2>
+        <button
+          className="border border-accent px-4 py-2 label-tech text-accent hover:bg-accent hover:text-accent-foreground"
+          onClick={() => {
+            setIsNew(true);
+            setEditing({ ...EMPTY_PRODUCT });
+          }}
+        >
+          + NEW PRODUCT
+        </button>
+      </div>
+
+      {list.isLoading && <p className="mt-6 label-tech text-muted-foreground">LOADING…</p>}
+      {list.isError && (
+        <p className="mt-6 text-sm text-red-400">
+          Could not load products. Run <code className="text-accent">supabase-products.sql</code> in
+          the SQL editor first.
+        </p>
+      )}
+
+      <ul className="mt-6 divide-y divide-border border border-border">
+        {(list.data ?? []).map((p) => (
+          <li key={p.id} className="flex items-center justify-between gap-4 p-4">
+            <div className="min-w-0">
+              <p className="truncate text-sm text-foreground">{p.name}</p>
+              <p className="mt-1 truncate label-tech text-muted-foreground">
+                {p.slug} · {p.status} · {p.published ? "PUBLISHED" : "HIDDEN"}
+              </p>
+            </div>
+            <div className="flex shrink-0 gap-3">
+              <button
+                className="label-tech text-accent hover:underline"
+                onClick={() => {
+                  setIsNew(false);
+                  const { id: _id, created_at: _c, updated_at: _u, ...rest } = p;
+                  setEditing(rest);
+                }}
+              >
+                EDIT
+              </button>
+              <button
+                className="label-tech text-red-400 hover:underline"
+                onClick={() => {
+                  if (confirm(`Delete "${p.name}"?`)) remove.mutate(p.slug);
+                }}
+              >
+                DELETE
+              </button>
+            </div>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function AdminContent() {
+  const [tab, setTab] = useState<"projects" | "products">("projects");
+  const tabBtn = (active: boolean) =>
+    `px-4 py-2 label-tech transition-colors ${
+      active
+        ? "border-b-2 border-accent text-accent"
+        : "text-muted-foreground hover:text-foreground"
+    }`;
+  return (
+    <div>
+      <div className="mb-8 flex gap-2 border-b border-border">
+        <button className={tabBtn(tab === "projects")} onClick={() => setTab("projects")}>
+          PROJECTS
+        </button>
+        <button className={tabBtn(tab === "products")} onClick={() => setTab("products")}>
+          PRODUCTS
+        </button>
+      </div>
+      {tab === "projects" ? <ProjectsManager /> : <ProductsManager />}
+    </div>
+  );
+}
+
 function AdminDashboard() {
   const router = useRouter();
   const { user, session, loading } = useAuth();
@@ -441,7 +716,7 @@ function AdminDashboard() {
           </p>
         </div>
       );
-    return <ProjectsManager />;
+    return <AdminContent />;
   }, [loading, roleLoading, session, isAdmin, user]);
 
   return (
