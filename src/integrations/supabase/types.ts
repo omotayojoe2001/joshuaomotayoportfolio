@@ -25,6 +25,7 @@ export type Database = {
           tags: string[];
           title: string;
           updated_at: string;
+          video_url: string | null;
         };
         Insert: {
           category?: string | null;
@@ -42,6 +43,7 @@ export type Database = {
           tags?: string[];
           title: string;
           updated_at?: string;
+          video_url?: string | null;
         };
         Update: {
           category?: string | null;
@@ -59,6 +61,7 @@ export type Database = {
           tags?: string[];
           title?: string;
           updated_at?: string;
+          video_url?: string | null;
         };
         Relationships: [];
       };
@@ -305,6 +308,7 @@ export type Database = {
           id: number;
           instagram_url: string | null;
           linkedin_url: string | null;
+          location: string | null;
           site_name: string | null;
           twitter_url: string | null;
           updated_at: string;
@@ -318,6 +322,7 @@ export type Database = {
           id?: number;
           instagram_url?: string | null;
           linkedin_url?: string | null;
+          location?: string | null;
           site_name?: string | null;
           twitter_url?: string | null;
           updated_at?: string;
@@ -331,6 +336,7 @@ export type Database = {
           id?: number;
           instagram_url?: string | null;
           linkedin_url?: string | null;
+          location?: string | null;
           site_name?: string | null;
           twitter_url?: string | null;
           updated_at?: string;

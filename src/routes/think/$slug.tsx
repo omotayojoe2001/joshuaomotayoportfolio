@@ -80,6 +80,41 @@ function Prose({ content }: { content: string }) {
   );
 }
 
+function ArticleVideo({ url }: { url: string }) {
+  const m = url.match(
+    /(?:youtube\.com\/(?:watch\?v=|embed\/|shorts\/)|youtu\.be\/)([A-Za-z0-9_-]{6,})/,
+  );
+  const isYouTube = !!m || /youtu\.?be\.com/i.test(url);
+  return (
+    <div className="container-x mt-12">
+      <Reveal>
+        <div className="overflow-hidden border border-border bg-surface">
+          {isYouTube && m ? (
+            <iframe
+              title="Watch the full video"
+              src={`https://www.youtube.com/embed/${m[1]}`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              className="aspect-[16/9] h-full w-full"
+            />
+          ) : isYouTube ? (
+            <video controls src={url} className="aspect-[16/9] h-full w-full bg-black" />
+          ) : (
+            <video controls src={url} className="aspect-[16/9] h-full w-full bg-black" />
+          )}
+        </div>
+      </Reveal>
+      {isYouTube && (
+        <div className="mt-4">
+          <ArrowLink href={url} tone="accent">
+            Watch the full video on YouTube
+          </ArrowLink>
+        </div>
+      )}
+    </div>
+  );
+}
+
 function ArticlePage() {
   const { article } = Route.useLoaderData();
 
@@ -113,7 +148,9 @@ function ArticlePage() {
           ← THINK
         </Link>
         <div className="mt-8 flex flex-wrap items-center gap-x-4 gap-y-2 label-tech">
-          {article.category && <span className="text-accent">{article.category.toUpperCase()}</span>}
+          {article.category && (
+            <span className="text-accent">{article.category.toUpperCase()}</span>
+          )}
           {date && <span>{date}</span>}
           <span>{article.reading_time} MIN READ</span>
         </div>
@@ -140,6 +177,8 @@ function ArticlePage() {
           </Reveal>
         </div>
       )}
+
+      {article.video_url && <ArticleVideo url={article.video_url} />}
 
       <div className="container-x mt-14 md:mt-20">
         <div className="grid gap-10 md:grid-cols-12">

@@ -38,6 +38,11 @@ export function SiteFooter() {
               <br />
               TECHNOLOGY EDUCATOR
             </p>
+            {settings?.location ? (
+              <p className="mt-4 label-tech text-muted-foreground">
+                {settings.location.toUpperCase()}
+              </p>
+            ) : null}
           </div>
 
           <nav aria-label="Footer" className="md:col-span-3">
@@ -59,6 +64,16 @@ export function SiteFooter() {
           <div className="md:col-span-3">
             <p className="label-tech text-accent">ELSEWHERE</p>
             <ul className="mt-4 space-y-2">
+              {settings?.email ? (
+                <li>
+                  <a
+                    href={`mailto:${settings.email}`}
+                    className="link-underline text-sm text-muted-foreground hover:text-foreground"
+                  >
+                    {settings.email}
+                  </a>
+                </li>
+              ) : null}
               {settings?.youtube_url ? (
                 <li>
                   <a
