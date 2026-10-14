@@ -314,6 +314,7 @@ export type Database = {
           location: string | null;
           site_name: string | null;
           twitter_url: string | null;
+          tiktok_url: string | null;
           updated_at: string;
           youtube_url: string | null;
         };
@@ -328,6 +329,7 @@ export type Database = {
           location?: string | null;
           site_name?: string | null;
           twitter_url?: string | null;
+          tiktok_url?: string | null;
           updated_at?: string;
           youtube_url?: string | null;
         };
@@ -342,6 +344,7 @@ export type Database = {
           location?: string | null;
           site_name?: string | null;
           twitter_url?: string | null;
+          tiktok_url?: string | null;
           updated_at?: string;
           youtube_url?: string | null;
         };

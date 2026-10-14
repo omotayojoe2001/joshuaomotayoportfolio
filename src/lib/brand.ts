@@ -19,17 +19,6 @@ export type Product = {
 
 export const PRODUCTS: Product[] = [
   {
-    name: "GenRev",
-    url: "https://genrev.ng",
-    domain: "genrev.ng",
-    position: "Business Development Tools",
-    description:
-      "A business development toolkit designed to help business owners manage and grow their businesses.",
-    cta: "Visit GenRev",
-    visual: "business",
-    index: "01",
-  },
-  {
     name: "GenRev AI",
     url: "https://genrev.app",
     domain: "genrev.app",
@@ -38,7 +27,7 @@ export const PRODUCTS: Product[] = [
       "An AI-powered social media assistant designed to help people create, manage and improve their social media presence.",
     cta: "Explore GenRev AI",
     visual: "assistant",
-    index: "02",
+    index: "01",
   },
   {
     name: "GoodDeed Network",
@@ -49,7 +38,7 @@ export const PRODUCTS: Product[] = [
       "A technology-for-social-good initiative focused on using technology to advocate for people and create positive social impact.",
     cta: "Visit GoodDeed Network",
     visual: "impact",
-    index: "03",
+    index: "02",
   },
   {
     name: "PlayGen",
@@ -60,7 +49,7 @@ export const PRODUCTS: Product[] = [
       "Complete tasks, win sponsored quizzes and recharge your phone while earning money into your wallet. No gambling, no tricks.",
     cta: "Visit PlayGen",
     visual: "business",
-    index: "04",
+    index: "03",
   },
   {
     name: "BuildBot",
@@ -71,7 +60,7 @@ export const PRODUCTS: Product[] = [
       "An AI agent that helps build and ship software. Currently in development — link coming soon.",
     cta: "Coming soon",
     visual: "assistant",
-    index: "05",
+    index: "04",
   },
 ];
 

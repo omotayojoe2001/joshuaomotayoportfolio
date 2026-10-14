@@ -12,9 +12,9 @@ const INTERNAL = [
 ] as const;
 
 const EXTERNAL = [
-  { href: "https://genrev.ng", label: "GenRev" },
   { href: "https://genrev.app", label: "GenRev AI" },
   { href: "https://gooddeednetwork.com", label: "GoodDeed Network" },
+  { href: "https://www.playgen.com.ng/", label: "PlayGen" },
 ];
 
 export function SiteFooter() {
@@ -74,20 +74,26 @@ export function SiteFooter() {
                   </a>
                 </li>
               ) : null}
-              {settings?.youtube_url ? (
-                <li>
-                  <a
-                    href={settings.youtube_url}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="link-underline text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    YouTube
-                  </a>
-                </li>
-              ) : (
-                <li className="text-sm text-muted-foreground/60">YouTube — link coming soon</li>
-              )}
+              {(
+                [
+                  { href: settings?.youtube_url, label: "YouTube" },
+                  { href: settings?.linkedin_url, label: "LinkedIn" },
+                  { href: settings?.tiktok_url, label: "TikTok" },
+                ] as { href?: string | null; label: string }[]
+              )
+                .filter((s) => s.href)
+                .map((s) => (
+                  <li key={s.label}>
+                    <a
+                      href={s.href ?? "#"}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="link-underline text-sm text-muted-foreground hover:text-foreground"
+                    >
+                      {s.label}
+                    </a>
+                  </li>
+                ))}
               {EXTERNAL.map((l) => (
                 <li key={l.href}>
                   <a
@@ -100,16 +106,6 @@ export function SiteFooter() {
                   </a>
                 </li>
               ))}
-              {settings?.email && (
-                <li>
-                  <a
-                    href={`mailto:${settings.email}`}
-                    className="link-underline text-sm text-muted-foreground hover:text-foreground"
-                  >
-                    {settings.email}
-                  </a>
-                </li>
-              )}
             </ul>
           </div>
         </div>
@@ -118,9 +114,6 @@ export function SiteFooter() {
           <span>© {year} Joshua Omotayo</span>
           <span className="flex items-center gap-6">
             <span>BUILT FROM NIGERIA. BUILT FOR EVERYWHERE.</span>
-            <Link to="/admin" className="text-muted-foreground/50 hover:text-accent">
-              ADMIN
-            </Link>
           </span>
         </div>
       </div>

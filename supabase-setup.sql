@@ -144,6 +144,7 @@ create table if not exists public.site_settings (
   github_url text default '',
   twitter_url text default '',
   instagram_url text default '',
+  tiktok_url text default '',
   availability_status text default 'Available for new projects',
   current_focus text default '',
   updated_at timestamptz not null default now(),
@@ -240,7 +241,7 @@ insert into public.now_items (label, status, sort_order)
 select v.label, v.status, v.sort_order from (values
  ('Building websites for clients','BUILDING',1),
  ('Exploring AI systems','EXPLORING',2),
- ('Building GenRev','BUILDING',3),
+ ('Building Arise SLG','BUILDING',3),
  ('Building GoodDeed Network','BUILDING',4),
  ('Teaching technology','TEACHING',5),
  ('Publishing ideas','WRITING',6)

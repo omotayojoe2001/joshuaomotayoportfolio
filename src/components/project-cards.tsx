@@ -4,16 +4,12 @@ import { EmptyState } from "@/components/site-sections";
 import { ogImage } from "@/lib/og";
 import type { Project } from "@/lib/content";
 
-function span(layout: string, i: number) {
-  if (layout === "full") return "md:col-span-12";
-  if (layout === "portrait") return "md:col-span-5";
-  if (layout === "split") return "md:col-span-6";
-  return i % 3 === 0 ? "md:col-span-7" : "md:col-span-5";
+function span(_layout: string, _i: number) {
+  // Joshua wants an even two-column grid — no single project spanning the row.
+  return "md:col-span-6";
 }
 
-function ratio(layout: string) {
-  if (layout === "full") return "aspect-[16/7]";
-  if (layout === "portrait") return "aspect-[3/4]";
+function ratio(_layout: string) {
   return "aspect-[4/3]";
 }
 
@@ -41,7 +37,7 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
   }
 
   return (
-    <div className="grid gap-x-6 gap-y-14 md:grid-cols-12">
+    <div className="grid gap-x-6 gap-y-10 md:grid-cols-12">
       {projects.map((p, i) => (
         <Reveal key={p.id} className={span(p.layout, i)} delay={(i % 2) * 0.08}>
           <Link

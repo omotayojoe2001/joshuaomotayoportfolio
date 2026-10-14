@@ -42,23 +42,23 @@ drop trigger if exists products_updated on public.products;
 create trigger products_updated before update on public.products
   for each row execute function public.set_updated_at();
 
+-- Retire the old genrev.ng product entirely (the site is down). Keep GenRev AI (genrev.app).
+delete from public.products where slug = 'genrev';
+
 -- Seed the current showcase. Edit freely from the admin afterwards.
 insert into public.products (name, slug, url, position, description, cta, visual, status, sort_order, published) values
-  ('GenRev', 'genrev', 'https://genrev.ng', 'Business Development Tools',
-   'A business development toolkit designed to help business owners manage and grow their businesses.',
-   'Visit GenRev', 'business', 'LIVE', 1, true),
   ('GenRev AI', 'genrev-ai', 'https://genrev.app', 'AI Social Media Assistant',
    'An AI-powered social media assistant designed to help people create, manage and improve their social media presence.',
-   'Explore GenRev AI', 'assistant', 'IN PROGRESS', 2, true),
+   'Explore GenRev AI', 'assistant', 'IN PROGRESS', 1, true),
   ('GoodDeed Network', 'gooddeed-network', 'https://gooddeednetwork.com', 'Technology for Social Good',
    'A technology-for-social-good initiative using technology to advocate for people and create positive social impact.',
-   'Visit GoodDeed Network', 'impact', 'LIVE', 3, true),
+   'Visit GoodDeed Network', 'impact', 'LIVE', 2, true),
   ('PlayGen', 'playgen', 'https://www.playgen.com.ng/', 'Earn Real Naira — Tasks & Quizzes',
    'Complete tasks, win sponsored quizzes and recharge your phone while earning money into your wallet. No gambling, no tricks.',
-   'Visit PlayGen', 'business', 'LIVE · IN PROGRESS', 4, true),
+   'Visit PlayGen', 'business', 'LIVE · IN PROGRESS', 3, true),
   ('BuildBot', 'buildbot', '', 'AI Build Agent',
    'An AI agent that helps build and ship software. Currently in development — link coming soon.',
-   'Coming soon', 'assistant', 'IN PROGRESS', 5, true)
+   'Coming soon', 'assistant', 'IN PROGRESS', 4, true)
 on conflict (slug) do update set
   name = excluded.name,
   url = excluded.url,

@@ -1291,6 +1291,7 @@ function SettingsManager() {
         {field("youtube_url", "YouTube channel URL")}
         <div className="grid gap-5 sm:grid-cols-2">
           {field("linkedin_url", "LinkedIn URL")}
+          {field("tiktok_url", "TikTok URL")}
           {field("github_url", "GitHub URL")}
           {field("twitter_url", "Twitter / X URL")}
           {field("instagram_url", "Instagram URL")}

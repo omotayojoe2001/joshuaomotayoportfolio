@@ -1,6 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { PageHeader, Section } from "@/components/site-sections";
+import { PageHeader, Section, ArrowLink } from "@/components/site-sections";
 import { ArticleList } from "@/components/article-list";
 import { useArticles } from "@/lib/content";
 
@@ -60,6 +60,26 @@ function ThinkPage() {
             category ? "Nothing filed under this category yet." : "I'm writing. Check back soon."
           }
         />
+      </Section>
+
+      <Section className="pt-0">
+        <div className="border border-border p-8 md:p-12">
+          <span className="label-tech text-accent">LEARN WITH ME</span>
+          <h2 className="display mt-4 max-w-3xl text-3xl md:text-5xl">
+            DON'T JUST READ ABOUT IT. LEARN TO BUILD IT.
+          </h2>
+          <p className="mt-4 max-w-xl text-muted-foreground">
+            I teach people how to build with web technology and AI — from your first line of code to
+            shipping something real.
+          </p>
+          <div className="mt-8 flex flex-wrap gap-3">
+            <ArrowLink href="https://learn.genrev.ng" tone="accent">
+              Start learning — learn.genrev.ng
+            </ArrowLink>
+            <ArrowLink to="/teach">See what I teach</ArrowLink>
+            <ArrowLink to="/contact">Invite me to teach</ArrowLink>
+          </div>
+        </div>
       </Section>
     </>
   );

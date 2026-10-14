@@ -23,6 +23,7 @@ export const DEFAULT_SETTINGS: SiteSettings = {
   github_url: "",
   twitter_url: "",
   instagram_url: "",
+  tiktok_url: "",
   location: "Lagos, Nigeria",
   availability_status: "Available for new projects",
   current_focus: "",
@@ -50,7 +51,7 @@ const SEED_NOW: NowItem[] = [
   },
   {
     id: "n3",
-    label: "Building GenRev",
+    label: "Building Arise SLG",
     status: "BUILDING",
     sort_order: 3,
     published: true,

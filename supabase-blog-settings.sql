@@ -11,6 +11,9 @@ alter table public.articles add column if not exists video_url text default '';
 -- 2) Site settings: your location is now editable from the admin panel.
 alter table public.site_settings add column if not exists location text default '';
 
+-- 2b) Site settings: TikTok link, shown in the footer socials.
+alter table public.site_settings add column if not exists tiktok_url text default '';
+
 -- 3) Make sure the single settings row exists (safe if it already does).
 insert into public.site_settings (id) values (1) on conflict (id) do nothing;
 
@@ -21,3 +24,7 @@ update public.site_settings set location = 'Lagos, Nigeria'
   where id = 1 and (location is null or location = '');
 update public.site_settings set email = 'playgen.ng@gmail.com'
   where id = 1 and (email is null or email = '');
+
+-- 5) Retire the outdated now-board entry. "Building GenRev" (genrev.ng is down)
+--    becomes "Building Arise SLG". Only renames the old label, leaves admin edits alone.
+update public.now_items set label = 'Building Arise SLG' where label = 'Building GenRev';
