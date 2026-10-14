@@ -65,8 +65,8 @@ export function Hero() {
             transition={{ delay: 0.5, duration: 0.8 }}
             className="mt-8 max-w-lg text-base leading-relaxed text-muted-foreground"
           >
-            Websites, AI-powered experiences and digital products built from Nigeria for
-            businesses and people around the world.
+            Websites, AI-powered experiences and digital products built from Nigeria for businesses
+            and people around the world.
           </motion.p>
 
           <motion.div

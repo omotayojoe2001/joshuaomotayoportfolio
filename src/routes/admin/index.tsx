@@ -2,8 +2,15 @@ import { createFileRoute, useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
-import { signOut, useAuth, useIsAdmin, uploadMedia } from "@/lib/admin";
-import type { Article, BuildProduct, Project, SiteSettings, Video } from "@/lib/content";
+import { signOut, useAuth, useIsAdmin, uploadMedia, getAttachmentUrl } from "@/lib/admin";
+import type {
+  Article,
+  BuildProduct,
+  ContactSubmission,
+  Project,
+  SiteSettings,
+  Video,
+} from "@/lib/content";
 
 export const Route = createFileRoute("/admin/")({
   head: () => ({
@@ -1305,7 +1312,124 @@ function SettingsManager() {
   );
 }
 
-type AdminTab = "projects" | "products" | "blog" | "videos" | "settings";
+type AdminTab = "projects" | "products" | "blog" | "videos" | "settings" | "inquiries";
+
+function InquiriesManager() {
+  const queryClient = useQueryClient();
+  const [busyId, setBusyId] = useState<string | null>(null);
+
+  const list = useQuery({
+    queryKey: ["admin-inquiries"],
+    queryFn: async () => {
+      const { data, error } = await supabase
+        .from("contact_submissions")
+        .select("*")
+        .order("created_at", { ascending: false });
+      if (error) throw error;
+      return data as ContactSubmission[];
+    },
+  });
+
+  const remove = useMutation({
+    mutationFn: async (id: string) => {
+      const { error } = await supabase.from("contact_submissions").delete().eq("id", id);
+      if (error) throw error;
+    },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: ["admin-inquiries"] }),
+  });
+
+  async function openDoc(path: string) {
+    setBusyId(path);
+    try {
+      const url = await getAttachmentUrl(path);
+      window.open(url, "_blank", "noopener");
+    } finally {
+      setBusyId(null);
+    }
+  }
+
+  const fileName = (path: string) => path.split("/").pop() ?? path;
+
+  return (
+    <div>
+      <div className="flex items-center justify-between">
+        <h2 className="display text-2xl">INQUIRIES — /contact</h2>
+        <button className="label-tech text-accent hover:underline" onClick={() => list.refetch()}>
+          REFRESH
+        </button>
+      </div>
+      <p className="mt-2 text-sm text-muted-foreground">
+        Every message from the contact form lands here. Reply straight to the sender's email.
+      </p>
+
+      {list.isLoading && <p className="mt-6 label-tech text-muted-foreground">LOADING…</p>}
+      {list.isError && (
+        <p className="mt-6 text-sm text-red-400">
+          Could not load inquiries. Run{" "}
+          <code className="text-accent">supabase-contact-attachments.sql</code> and make sure you
+          are signed in as admin.
+        </p>
+      )}
+      {!list.isLoading && (list.data ?? []).length === 0 && (
+        <p className="mt-6 label-tech text-muted-foreground">NO INQUIRIES YET.</p>
+      )}
+
+      <ul className="mt-6 space-y-4">
+        {(list.data ?? []).map((s) => (
+          <li key={s.id} className="border border-border p-5">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0">
+                <p className="text-sm text-foreground">
+                  <span className="font-medium">{s.name}</span>
+                  {s.company ? <span className="text-muted-foreground"> · {s.company}</span> : null}
+                </p>
+                <a href={`mailto:${s.email}`} className="label-tech text-accent hover:underline">
+                  {s.email}
+                </a>
+              </div>
+              <div className="flex shrink-0 items-center gap-4">
+                <span className="label-tech text-muted-foreground">
+                  {new Date(s.created_at).toLocaleString()}
+                </span>
+                <button
+                  className="label-tech text-red-400 hover:underline"
+                  onClick={() => {
+                    if (confirm("Delete this inquiry?")) remove.mutate(s.id);
+                  }}
+                >
+                  DELETE
+                </button>
+              </div>
+            </div>
+
+            {(s.project_type || s.budget) && (
+              <p className="mt-3 label-tech text-muted-foreground">
+                {s.project_type ? `TYPE: ${s.project_type}` : ""}
+                {s.project_type && s.budget ? " · " : ""}
+                {s.budget ? `BUDGET: ${s.budget}` : ""}
+              </p>
+            )}
+
+            <p className="mt-3 whitespace-pre-wrap text-sm text-foreground/90">{s.message}</p>
+
+            {s.attachment && (
+              <button
+                className="mt-4 inline-flex items-center gap-2 border border-border px-3 py-1.5 label-tech text-accent hover:border-accent disabled:opacity-50"
+                disabled={busyId === s.attachment}
+                onClick={() => openDoc(s.attachment ?? "")}
+              >
+                {busyId === s.attachment ? "OPENING…" : "VIEW DOC"}
+                <span className="max-w-40 truncate text-muted-foreground">
+                  {fileName(s.attachment)}
+                </span>
+              </button>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
 function AdminContent() {
   const [tab, setTab] = useState<AdminTab>("projects");
@@ -1321,6 +1445,7 @@ function AdminContent() {
     { id: "blog", label: "BLOG / THINK" },
     { id: "videos", label: "VIDEOS" },
     { id: "settings", label: "SETTINGS" },
+    { id: "inquiries", label: "INQUIRIES" },
   ];
   return (
     <div>
@@ -1336,6 +1461,7 @@ function AdminContent() {
       {tab === "blog" && <ArticlesManager />}
       {tab === "videos" && <VideosManager />}
       {tab === "settings" && <SettingsManager />}
+      {tab === "inquiries" && <InquiriesManager />}
     </div>
   );
 }

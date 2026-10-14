@@ -158,6 +158,7 @@ create table if not exists public.contact_submissions (
   project_type text default '',
   budget text default '',
   message text not null,
+  attachment text default '',
   created_at timestamptz not null default now()
 );
 

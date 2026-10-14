@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { Reveal } from "@/components/motion-primitives";
 import { EmptyState } from "@/components/site-sections";
+import { ogImage } from "@/lib/og";
 import type { Project } from "@/lib/content";
 
 function span(layout: string, i: number) {
@@ -52,9 +53,9 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
             <div
               className={`relative overflow-hidden border border-border bg-surface ${ratio(p.layout)}`}
             >
-              {p.featured_image ? (
+              {p.featured_image || ogImage(p.url) ? (
                 <img
-                  src={p.featured_image}
+                  src={p.featured_image || ogImage(p.url)}
                   alt={`${p.title} — ${p.category}`}
                   loading="lazy"
                   className="h-full w-full object-cover grayscale transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] group-hover:grayscale-0"

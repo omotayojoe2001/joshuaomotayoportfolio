@@ -123,8 +123,8 @@ export function GlobalReach() {
           <span className="text-accent">USED AROUND THE WORLD.</span>
         </h2>
         <p className="mt-6 max-w-md text-base leading-relaxed text-muted-foreground">
-          Global technology can be built from anywhere. Websites and products designed and
-          developed from Nigeria for clients and audiences across four markets.
+          Global technology can be built from anywhere. Websites and products designed and developed
+          from Nigeria for clients and audiences across four markets.
         </p>
         <ul className="mt-10 grid grid-cols-2 gap-px border border-border bg-border sm:grid-cols-4 lg:grid-cols-2">
           {MARKETS.map((m) => (

@@ -11,6 +11,80 @@ export type Video = Tables<"youtube_videos">;
 export type NowItem = Tables<"now_items">;
 export type SiteSettings = Tables<"site_settings">;
 export type BuildProduct = Tables<"products">;
+export type ContactSubmission = Tables<"contact_submissions">;
+
+/** Shown when the CMS is unreachable — the site never looks broken. */
+export const DEFAULT_SETTINGS: SiteSettings = {
+  id: 1,
+  site_name: "Joshua Omotayo",
+  email: "playgen.ng@gmail.com",
+  youtube_url: "https://www.youtube.com/@joshua-omotayo",
+  linkedin_url: "",
+  github_url: "",
+  twitter_url: "",
+  instagram_url: "",
+  location: "Lagos, Nigeria",
+  availability_status: "Available for new projects",
+  current_focus: "",
+  updated_at: new Date().toISOString(),
+};
+
+const SEED_NOW: NowItem[] = [
+  {
+    id: "n1",
+    label: "Building websites for clients",
+    status: "BUILDING",
+    sort_order: 1,
+    published: true,
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "n2",
+    label: "Exploring AI systems",
+    status: "EXPLORING",
+    sort_order: 2,
+    published: true,
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "n3",
+    label: "Building GenRev",
+    status: "BUILDING",
+    sort_order: 3,
+    published: true,
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "n4",
+    label: "Building PlayGen",
+    status: "BUILDING",
+    sort_order: 4,
+    published: true,
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "n5",
+    label: "Teaching technology",
+    status: "TEACHING",
+    sort_order: 5,
+    published: true,
+    created_at: "",
+    updated_at: "",
+  },
+  {
+    id: "n6",
+    label: "Publishing ideas",
+    status: "WRITING",
+    sort_order: 6,
+    published: true,
+    created_at: "",
+    updated_at: "",
+  },
+];
 
 export function useBuildProducts() {
   return useQuery({
@@ -39,8 +113,7 @@ export function useProjects(limit?: number) {
         .order("created_at", { ascending: false });
       if (limit) q = q.limit(limit);
       const { data, error } = await q;
-      if (error) throw error;
-      const rows = data as Project[];
+      const rows = (error ? [] : data) as Project[];
       // The in-repo catalogue is the fallback: it renders whenever the CMS is
       // empty or unreachable, so the portfolio is never a blank page.
       if (rows.length === 0) {
@@ -112,7 +185,7 @@ export function useArticles(opts?: { kind?: string; limit?: number }) {
       if (opts?.kind) q = q.eq("kind", opts.kind);
       if (opts?.limit) q = q.limit(opts.limit);
       const { data, error } = await q;
-      if (error) throw error;
+      if (error) return [];
       return data as Article[];
     },
   });
@@ -173,7 +246,7 @@ export function useVideos() {
         .select("*")
         .eq("published", true)
         .order("created_at", { ascending: false });
-      if (error) throw error;
+      if (error) return [];
       return data as Video[];
     },
   });
@@ -188,8 +261,9 @@ export function useNowItems() {
         .select("*")
         .eq("published", true)
         .order("sort_order", { ascending: true });
-      if (error) throw error;
-      return data as NowItem[];
+      if (error) return SEED_NOW;
+      const rows = (data ?? []) as NowItem[];
+      return rows.length === 0 ? SEED_NOW : rows;
     },
   });
 }
@@ -203,8 +277,8 @@ export function useSettings() {
         .select("*")
         .eq("id", 1)
         .maybeSingle();
-      if (error) throw error;
-      return data as SiteSettings | null;
+      if (error) return DEFAULT_SETTINGS;
+      return (data as SiteSettings | null) ?? DEFAULT_SETTINGS;
     },
   });
 }

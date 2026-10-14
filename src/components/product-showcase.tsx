@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "motion/react";
 import { Reveal } from "@/components/motion-primitives";
 import { ArrowLink } from "@/components/site-sections";
 import { PRODUCTS, type ProductVisual } from "@/lib/brand";
+import { ogImage } from "@/lib/og";
 import { useBuildProducts, type BuildProduct } from "@/lib/content";
 
 /** Unified shape used by the card — sourced from the CMS or the brand fallback. */
@@ -43,7 +44,7 @@ function fromCms(p: BuildProduct, i: number): DisplayProduct {
     cta: p.cta || `Visit ${p.name}`,
     visual,
     index: String(i + 1).padStart(2, "0"),
-    image: p.image,
+    image: p.image || ogImage(p.url),
     status: p.status,
   };
 }
@@ -59,7 +60,7 @@ function fromBrand(): DisplayProduct[] {
     cta: p.cta,
     visual: p.visual,
     index: p.index,
-    image: "",
+    image: ogImage(p.url),
     status: "LIVE",
   }));
 }
@@ -183,45 +184,47 @@ function Visual({ kind }: { kind: ProductVisual }) {
 }
 
 function ProductCard({ product, i }: { product: DisplayProduct; i: number }) {
-  const flip = i % 2 === 1;
   return (
-    <Reveal delay={i * 0.05}>
-      <article className="rule grid gap-0 border-x border-b border-border md:grid-cols-2">
-        <div
-          className={`relative min-h-[280px] border-border bg-surface/40 md:min-h-[360px] ${
-            flip ? "md:order-2 md:border-l" : "md:border-r"
-          }`}
+    <Reveal delay={i * 0.05} className="h-full">
+      <article className="flex h-full flex-col border border-border bg-surface/30">
+        <a
+          href={product.url || "#"}
+          target={product.url ? "_blank" : undefined}
+          rel="noreferrer"
+          className="group relative block aspect-[16/10] overflow-hidden border-b border-border bg-surface"
         >
           {product.image ? (
             <img
               src={product.image}
               alt={product.name}
               loading="lazy"
-              className="absolute inset-0 h-full w-full object-cover"
+              className="h-full w-full object-cover object-top transition-transform duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04]"
             />
           ) : (
             <Visual kind={product.visual} />
           )}
-          <span className="absolute left-4 top-4 label-tech text-accent">{product.index}</span>
+          <span className="absolute left-3 top-3 label-tech text-accent">{product.index}</span>
           {product.status && (
-            <span className="absolute right-4 top-4 border border-accent/40 bg-background/70 px-2 py-1 label-tech text-[10px] text-accent backdrop-blur">
+            <span className="absolute right-3 top-3 border border-accent/40 bg-background/70 px-2 py-1 label-tech text-[10px] text-accent backdrop-blur">
               {product.status}
             </span>
           )}
-        </div>
-        <div className="flex flex-col justify-center gap-5 p-7 md:p-10">
+        </a>
+        <div className="flex flex-1 flex-col gap-2 p-5">
           <span className="label-tech text-accent">{product.position}</span>
-          <h3 className="display text-4xl md:text-5xl">{product.name}</h3>
-          <p className="max-w-md text-sm leading-relaxed text-muted-foreground">
-            {product.description}
-          </p>
-          {product.domain && (
-            <span className="font-mono text-xs text-muted-foreground/70">{product.domain}</span>
+          <h3 className="display text-2xl">{product.name}</h3>
+          {product.description && (
+            <p className="line-clamp-3 text-sm leading-relaxed text-muted-foreground">
+              {product.description}
+            </p>
           )}
-          <div>
-            <ArrowLink href={product.url} tone="accent">
+          <div className="mt-auto flex items-center justify-between gap-3 pt-4">
+            <ArrowLink href={product.url || "#"} tone="accent">
               {product.cta}
             </ArrowLink>
+            {product.domain && (
+              <span className="font-mono text-xs text-muted-foreground/60">{product.domain}</span>
+            )}
           </div>
         </div>
       </article>
@@ -234,7 +237,7 @@ export function ProductShowcase() {
   const cms = data ?? [];
   const products = cms.length > 0 ? cms.map(fromCms) : fromBrand();
   return (
-    <div className="border-t border-border">
+    <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
       {products.map((p, i) => (
         <ProductCard key={p.key} product={p} i={i} />
       ))}

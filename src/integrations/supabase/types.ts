@@ -67,6 +67,7 @@ export type Database = {
       };
       contact_submissions: {
         Row: {
+          attachment: string | null;
           budget: string | null;
           company: string | null;
           created_at: string;
@@ -77,6 +78,7 @@ export type Database = {
           project_type: string | null;
         };
         Insert: {
+          attachment?: string | null;
           budget?: string | null;
           company?: string | null;
           created_at?: string;
@@ -87,6 +89,7 @@ export type Database = {
           project_type?: string | null;
         };
         Update: {
+          attachment?: string | null;
           budget?: string | null;
           company?: string | null;
           created_at?: string;

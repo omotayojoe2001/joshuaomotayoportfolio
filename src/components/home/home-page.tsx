@@ -14,15 +14,7 @@ import { FinalCta } from "@/components/final-cta";
 import { Reveal } from "@/components/motion-primitives";
 import { useArticles, useProjects } from "@/lib/content";
 
-function BlockHead({
-  title,
-  sub,
-  action,
-}: {
-  title: ReactNode;
-  sub?: string;
-  action?: ReactNode;
-}) {
+function BlockHead({ title, sub, action }: { title: ReactNode; sub?: string; action?: ReactNode }) {
   return (
     <div className="mb-12 flex flex-wrap items-end justify-between gap-6">
       <div>
@@ -134,7 +126,10 @@ export function HomePage() {
 
       {/* 12 — Now */}
       <Section index="09" label="NOW">
-        <BlockHead title="CURRENTLY" sub="A live board of what I'm building, learning and shipping." />
+        <BlockHead
+          title="CURRENTLY"
+          sub="A live board of what I'm building, learning and shipping."
+        />
         <NowBoard />
       </Section>
 

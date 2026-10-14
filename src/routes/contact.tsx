@@ -4,6 +4,7 @@ import { Toaster, toast } from "sonner";
 import { PageHeader, Section } from "@/components/site-sections";
 import { Reveal } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
+import { uploadAttachment } from "@/lib/admin";
 import { useSettings } from "@/lib/content";
 
 export const Route = createFileRoute("/contact")({
@@ -72,10 +73,12 @@ function ContactPage() {
   });
   const [projectType, setProjectType] = useState<string | null>(null);
   const [budget, setBudget] = useState<string | null>(null);
+  const [file, setFile] = useState<File | null>(null);
   const [status, setStatus] = useState<"idle" | "sending" | "sent">("idle");
 
-  const update = (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-    setForm((f) => ({ ...f, [key]: e.target.value }));
+  const update =
+    (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
+      setForm((f) => ({ ...f, [key]: e.target.value }));
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -85,6 +88,8 @@ function ContactPage() {
     }
     setStatus("sending");
     try {
+      let attachment = "";
+      if (file) attachment = await uploadAttachment(file);
       const { error } = await supabase.from("contact_submissions").insert({
         name: form.name.trim(),
         email: form.email.trim(),
@@ -92,6 +97,7 @@ function ContactPage() {
         project_type: projectType ?? "",
         budget: budget ?? "",
         message: form.message.trim(),
+        attachment,
       });
       if (error) throw error;
       setStatus("sent");
@@ -121,8 +127,8 @@ function ContactPage() {
                   <span className="label-tech text-accent">MESSAGE RECEIVED</span>
                   <h2 className="display mt-4 text-4xl">THANK YOU.</h2>
                   <p className="mt-4 max-w-md text-muted-foreground">
-                    Your message is in. I'll reply to <span className="text-foreground">{form.email}</span>{" "}
-                    as soon as I can.
+                    Your message is in. I'll reply to{" "}
+                    <span className="text-foreground">{form.email}</span> as soon as I can.
                   </p>
                   <button
                     type="button"
@@ -130,6 +136,7 @@ function ContactPage() {
                       setForm({ name: "", email: "", company: "", message: "" });
                       setProjectType(null);
                       setBudget(null);
+                      setFile(null);
                       setStatus("idle");
                     }}
                     className="mt-8 label-tech link-underline text-accent"
@@ -217,6 +224,36 @@ function ContactPage() {
                     required
                   />
                 </label>
+
+                <div>
+                  <span className="label-tech">ATTACH A DOC (OPTIONAL)</span>
+                  <div className="mt-3 flex flex-wrap items-center gap-3">
+                    <label className="inline-flex cursor-pointer items-center gap-2 border border-border px-4 py-2.5 label-tech text-muted-foreground transition-colors hover:border-accent hover:text-accent">
+                      {file ? "CHANGE FILE" : "UPLOAD BRIEF / REQUIREMENTS"}
+                      <input
+                        type="file"
+                        accept=".pdf,.doc,.docx,.txt,.md,image/*"
+                        className="hidden"
+                        onChange={(e) => setFile(e.target.files?.[0] ?? null)}
+                      />
+                    </label>
+                    {file && (
+                      <span className="inline-flex items-center gap-2 text-sm text-foreground">
+                        <span className="max-w-52 truncate">{file.name}</span>
+                        <button
+                          type="button"
+                          className="label-tech text-red-400 hover:underline"
+                          onClick={() => setFile(null)}
+                        >
+                          REMOVE
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                  <p className="mt-2 text-xs text-muted-foreground">
+                    PDF, Word, text or image. Stored privately and shown only to me.
+                  </p>
+                </div>
 
                 <button
                   type="submit"

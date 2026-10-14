@@ -51,6 +51,28 @@ export const PRODUCTS: Product[] = [
     visual: "impact",
     index: "03",
   },
+  {
+    name: "PlayGen",
+    url: "https://www.playgen.com.ng/",
+    domain: "playgen.com.ng",
+    position: "Earn Real Naira — Tasks & Quizzes",
+    description:
+      "Complete tasks, win sponsored quizzes and recharge your phone while earning money into your wallet. No gambling, no tricks.",
+    cta: "Visit PlayGen",
+    visual: "business",
+    index: "04",
+  },
+  {
+    name: "BuildBot",
+    url: "",
+    domain: "",
+    position: "AI Build Agent",
+    description:
+      "An AI agent that helps build and ship software. Currently in development — link coming soon.",
+    cta: "Coming soon",
+    visual: "assistant",
+    index: "05",
+  },
 ];
 
 /** Markets Joshua builds for — used by the global-reach section. */

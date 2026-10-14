@@ -57,9 +57,7 @@ function ThinkPage() {
         <ArticleList
           articles={filtered}
           emptyMessage={
-            category
-              ? "Nothing filed under this category yet."
-              : "I'm writing. Check back soon."
+            category ? "Nothing filed under this category yet." : "I'm writing. Check back soon."
           }
         />
       </Section>

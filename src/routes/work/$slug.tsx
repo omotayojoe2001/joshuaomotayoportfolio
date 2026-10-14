@@ -1,5 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { loadProject, loadProjects, type Project } from "@/lib/content";
+import { ogImage } from "@/lib/og";
 import { ArrowLink } from "@/components/site-sections";
 import { Reveal } from "@/components/motion-primitives";
 
@@ -117,9 +118,9 @@ function CaseStudyPage() {
       <div className="container-x mt-14">
         <Reveal>
           <div className="relative aspect-[16/9] overflow-hidden border border-border bg-surface">
-            {project.featured_image ? (
+            {project.featured_image || ogImage(project.url) ? (
               <img
-                src={project.featured_image}
+                src={project.featured_image || ogImage(project.url)}
                 alt={project.title}
                 className="h-full w-full object-cover"
               />

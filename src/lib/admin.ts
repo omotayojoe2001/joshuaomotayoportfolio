@@ -97,3 +97,23 @@ export async function uploadMedia(file: File): Promise<string> {
 export function useUploadMedia() {
   return useMutation({ mutationFn: uploadMedia });
 }
+
+/**
+ * Upload a contact-form document to the private `attachments` bucket.
+ * Returns the storage path (not a public URL) — the admin panel opens it with
+ * a short-lived signed link, so uploaded briefs are never world-readable.
+ */
+export async function uploadAttachment(file: File): Promise<string> {
+  const ext = file.name.split(".").pop()?.toLowerCase() || "bin";
+  const path = `${crypto.randomUUID()}.${ext}`;
+  const { error } = await supabase.storage.from("attachments").upload(path, file, { upsert: true });
+  if (error) throw error;
+  return path;
+}
+
+/** Create a temporary download link for an attachment path (admin only). */
+export async function getAttachmentUrl(path: string): Promise<string> {
+  const { data, error } = await supabase.storage.from("attachments").createSignedUrl(path, 60);
+  if (error) throw error;
+  return data.signedUrl;
+}
