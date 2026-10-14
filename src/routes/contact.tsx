@@ -167,12 +167,12 @@ function ContactPage() {
                 </div>
 
                 <label className="block">
-                  <span className="label-tech">COMPANY</span>
+                  <span className="label-tech">COMPANY / INDIVIDUAL</span>
                   <input
                     className={`${field} mt-3`}
                     value={form.company}
                     onChange={update("company")}
-                    placeholder="Company or organization (optional)"
+                    placeholder="Company or individual (optional)"
                     autoComplete="organization"
                   />
                 </label>
