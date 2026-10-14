@@ -124,8 +124,21 @@ function CaseStudyPage() {
                 className="h-full w-full object-cover"
               />
             ) : (
-              <div className="grid-bg flex h-full w-full items-center justify-center">
-                <span className="label-tech">PROJECT VISUAL — PLACEHOLDER</span>
+              <div className="grid-bg relative flex h-full w-full items-center justify-center overflow-hidden">
+                <span className="display select-none text-[clamp(3.5rem,12vw,10rem)] leading-none text-foreground/80">
+                  {project.title
+                    .replace(/[^\sA-Za-z0-9]/g, " ")
+                    .split(/\s+/)
+                    .filter(Boolean)
+                    .slice(0, 2)
+                    .map((w) => w[0]?.toUpperCase() ?? "")
+                    .join("")}
+                </span>
+                {project.category ? (
+                  <span className="absolute left-5 top-5 label-tech text-accent">
+                    {project.category.toUpperCase()}
+                  </span>
+                ) : null}
               </div>
             )}
           </div>

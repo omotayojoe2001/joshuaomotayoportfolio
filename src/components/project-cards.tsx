@@ -16,6 +16,16 @@ function ratio(layout: string) {
   return "aspect-[4/3]";
 }
 
+function initials(title: string) {
+  return title
+    .replace(/[^\sA-Za-z0-9]/g, " ")
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((w) => w[0]?.toUpperCase() ?? "")
+    .join("");
+}
+
 export function ProjectGrid({ projects }: { projects: Project[] }) {
   if (projects.length === 0) {
     return (
@@ -50,8 +60,15 @@ export function ProjectGrid({ projects }: { projects: Project[] }) {
                   className="h-full w-full object-cover grayscale transition-all duration-[900ms] ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:scale-[1.04] group-hover:grayscale-0"
                 />
               ) : (
-                <div className="grid-bg flex h-full w-full items-center justify-center">
-                  <span className="label-tech">IMAGE PLACEHOLDER</span>
+                <div className="grid-bg relative flex h-full w-full items-center justify-center overflow-hidden">
+                  <span className="display select-none text-[clamp(3rem,9vw,7rem)] leading-none text-foreground/80">
+                    {initials(p.title)}
+                  </span>
+                  {p.category ? (
+                    <span className="absolute left-4 top-4 label-tech text-accent">
+                      {p.category.toUpperCase()}
+                    </span>
+                  ) : null}
                 </div>
               )}
               <span className="absolute right-4 bottom-4 translate-y-2 border border-accent bg-background/70 px-3 py-1.5 label-tech text-accent opacity-0 backdrop-blur transition-all duration-500 group-hover:translate-y-0 group-hover:opacity-100">
