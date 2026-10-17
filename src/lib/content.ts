@@ -137,6 +137,9 @@ export function useBuildProducts() {
 export function useProjects(limit?: number) {
   return useQuery({
     queryKey: ["projects", limit ?? "all"],
+    // Render the catalogue on the very first paint (including SSR), then swap in
+    // live CMS data once it arrives. Kills the empty-shell flash on slow links.
+    placeholderData: () => (limit ? seedProjects.slice(0, limit) : seedProjects),
     queryFn: async () => {
       let q = supabase
         .from("projects")
@@ -160,6 +163,7 @@ export function useProjects(limit?: number) {
 export function useProject(slug: string) {
   return useQuery({
     queryKey: ["project", slug],
+    placeholderData: () => seedProjectsBySlug[slug] ?? null,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("projects")
@@ -273,6 +277,7 @@ export function useTestimonials() {
 export function useVideos() {
   return useQuery({
     queryKey: ["videos"],
+    placeholderData: () => SEED_VIDEOS,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("youtube_videos")
@@ -290,6 +295,7 @@ export function useVideos() {
 export function useNowItems() {
   return useQuery({
     queryKey: ["now_items"],
+    placeholderData: () => SEED_NOW,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("now_items")
@@ -306,6 +312,7 @@ export function useNowItems() {
 export function useSettings() {
   return useQuery({
     queryKey: ["site_settings"],
+    placeholderData: () => DEFAULT_SETTINGS,
     queryFn: async () => {
       const { data, error } = await supabase
         .from("site_settings")

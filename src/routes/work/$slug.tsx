@@ -11,13 +11,14 @@ type LoaderData = {
 
 export const Route = createFileRoute("/work/$slug")({
   loader: async ({ params }): Promise<LoaderData> => {
-    const project = await loadProject(params.slug);
+    // Run both lookups concurrently instead of back-to-back, so a cold case
+    // study waits for one round trip instead of two.
+    const [project, list] = await Promise.all([loadProject(params.slug), loadProjects()]);
 
     let next: LoaderData["next"] = null;
-    if (project) {
-      const list = await loadProjects();
+    if (project && list.length > 1) {
       const idx = list.findIndex((p) => p.slug === project.slug);
-      if (idx >= 0 && list.length > 1) {
+      if (idx >= 0) {
         const n = list[(idx + 1) % list.length]!;
         next = { slug: n.slug, title: n.title };
       }
