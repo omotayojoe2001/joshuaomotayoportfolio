@@ -42,11 +42,15 @@ export const Route = createFileRoute("/work/$slug")({
   component: CaseStudyPage,
 });
 
-function Block({ label, body }: { label: string; body?: string | null }) {
+function Block({ label, body, index }: { label: string; body?: string | null; index: number }) {
   if (!body || body.trim().length === 0) return null;
   const paragraphs = body.split(/\n{2,}|\n/).filter((s) => s.trim().length > 0);
   return (
-    <Reveal className="grid gap-4 border-t border-border py-8 md:grid-cols-12">
+    <Reveal
+      className="grid gap-4 border-t border-border py-8 md:grid-cols-12"
+      hud={label}
+      hudIndex={String(index).padStart(2, "0")}
+    >
       <h3 className="label-tech text-accent md:col-span-3">{label}</h3>
       <div className="space-y-4 md:col-span-9">
         {paragraphs.map((para, i) => (
@@ -86,6 +90,12 @@ function CaseStudyPage() {
 
   return (
     <article>
+      {/* Reading progress: reuses the global --scroll bus, no per-frame React */}
+      <div
+        aria-hidden
+        className="fixed left-0 top-0 z-50 h-[2px] w-full origin-left bg-accent/90"
+        style={{ transform: "scaleX(var(--scroll))" }}
+      />
       {/* Hero */}
       <header className="container-x pt-32 md:pt-44">
         <Link to="/work" className="label-tech link-underline text-accent">
@@ -167,13 +177,13 @@ function CaseStudyPage() {
           </aside>
 
           <div className="md:col-span-9">
-            <Block label="OVERVIEW" body={project.overview} />
-            <Block label="THE PROBLEM" body={project.problem} />
-            <Block label="APPROACH" body={project.approach} />
-            <Block label="DESIGN DIRECTION" body={project.design_direction} />
-            <Block label="DEVELOPMENT" body={project.development} />
-            <Block label="OUTCOME" body={project.outcome} />
-            <Block label="REFLECTION" body={project.reflection} />
+            <Block label="OVERVIEW" body={project.overview} index={1} />
+            <Block label="THE PROBLEM" body={project.problem} index={2} />
+            <Block label="APPROACH" body={project.approach} index={3} />
+            <Block label="DESIGN DIRECTION" body={project.design_direction} index={4} />
+            <Block label="DEVELOPMENT" body={project.development} index={5} />
+            <Block label="OUTCOME" body={project.outcome} index={6} />
+            <Block label="REFLECTION" body={project.reflection} index={7} />
           </div>
         </div>
       </div>

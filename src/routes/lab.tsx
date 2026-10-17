@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { motion, useReducedMotion } from "motion/react";
 import { useRef } from "react";
 import { PageHeader, Section, EmptyState } from "@/components/site-sections";
+import { Playground } from "@/components/lab/playground";
+import { Reveal } from "@/components/motion-primitives";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { useExperiments } from "@/lib/content";
 
@@ -134,7 +136,13 @@ function LabPage() {
         intro="Experiments, AI prototypes, small interactions and unfinished ideas. Drag them around."
       />
 
-      <Section className="pt-0">
+      <Section label="LIVE CANVAS" index="01" className="pt-0">
+        <Reveal>
+          <Playground />
+        </Reveal>
+      </Section>
+
+      <Section label="THE BENCH" index="02">
         {experiments.length === 0 ? (
           <EmptyState>No experiments logged yet. The lab is warming up.</EmptyState>
         ) : isMobile ? (

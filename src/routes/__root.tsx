@@ -14,6 +14,28 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { SiteNav } from "@/components/site-nav";
 import { SiteFooter } from "@/components/site-footer";
+import { SystemChrome } from "@/components/system/system-chrome";
+
+/**
+ * Decides, before the first paint, whether the boot curtain plays. Runs in the
+ * head so the curtain is either skipped or animating from frame one, and the
+ * decision never has to be mirrored in React state (no hydration branch).
+ */
+const BOOT_SCRIPT = `
+try {
+  var reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  var seen = window.sessionStorage.getItem("jo-booted") === "1";
+  if (reduce || seen || location.pathname.indexOf("/admin") === 0) {
+    document.documentElement.setAttribute("data-boot", "skip");
+  } else {
+    window.sessionStorage.setItem("jo-booted", "1");
+  }
+} catch (e) {
+  document.documentElement.setAttribute("data-boot", "skip");
+}
+`;
+
+const BOOT_NAME = "JOSHUA OMOTAYO";
 
 const SITE_URL = "https://joshuaomotayo.com.ng";
 const DEFAULT_TITLE = "Joshua Omotayo - Web Developer, AI Builder & Technology Educator";
@@ -60,21 +82,25 @@ const WEBSITE_JSONLD = {
 
 function NotFoundComponent() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <div className="max-w-md text-center">
-        <h1 className="text-7xl font-bold text-foreground">404</h1>
-        <h2 className="mt-4 text-xl font-semibold text-foreground">Page not found</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
-          The page you're looking for doesn't exist or has been moved.
-        </p>
-        <div className="mt-6">
-          <Link
-            to="/"
-            className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary/90"
-          >
-            Go home
-          </Link>
-        </div>
+    <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4 text-center">
+      <span className="label-tech text-accent">SIGNAL LOST</span>
+      <h1 className="display text-[18vw] leading-[0.82] md:text-[9vw]">404</h1>
+      <p className="max-w-sm text-sm text-muted-foreground">
+        This page is not part of the build. Everything else is still running.
+      </p>
+      <div className="flex flex-wrap items-center justify-center gap-3 label-tech">
+        <Link
+          to="/"
+          className="border border-accent px-4 py-2.5 text-accent transition-colors hover:bg-accent hover:text-accent-foreground"
+        >
+          GO HOME →
+        </Link>
+        <Link
+          to="/work"
+          className="border border-border-strong px-4 py-2.5 transition-colors hover:border-accent hover:text-accent"
+        >
+          VIEW WORK
+        </Link>
       </div>
     </div>
   );
@@ -114,6 +140,34 @@ function ErrorComponent({ error, reset }: { error: unknown; reset: () => void })
           </a>
         </div>
       </div>
+    </div>
+  );
+}
+
+function BootCurtain() {
+  const words = BOOT_NAME.split(" ");
+  return (
+    <div className="boot" aria-hidden>
+      <p className="display text-[15vw] leading-[0.86] md:text-[7vw]">
+        {words.map((word, w) => (
+          <span key={word} className="boot-word block overflow-hidden">
+            {word.split("").map((letter, i) => (
+              <span
+                key={`${word}-${i}`}
+                style={{ animationDelay: `${0.04 + (w * 7 + i) * 0.028}s` }}
+              >
+                {letter}
+              </span>
+            ))}
+          </span>
+        ))}
+      </p>
+      <div className="boot-line w-56 md:w-80" />
+      <p className="label-tech boot-word">
+        <span style={{ animationDelay: "0.52s" }}>
+          WEB DEVELOPMENT / AI SYSTEMS / DIGITAL PRODUCTS
+        </span>
+      </p>
     </div>
   );
 }
@@ -170,6 +224,7 @@ function RootShell({ children }: { children: ReactNode }) {
     <html lang="en">
       <head>
         <HeadContent />
+        {!bare && <script dangerouslySetInnerHTML={{ __html: BOOT_SCRIPT }} />}
         {!bare && <link rel="canonical" href={canonical} />}
         {!bare && <meta property="og:url" content={canonical} />}
         {!bare && (
@@ -186,6 +241,7 @@ function RootShell({ children }: { children: ReactNode }) {
         )}
       </head>
       <body>
+        {!bare && <BootCurtain />}
         {children}
         <Scripts />
       </body>
@@ -205,13 +261,16 @@ function RootComponent() {
         // Required: nested routes render here. Removing <Outlet /> breaks all child routes.
         <Outlet />
       ) : (
-        <div className="flex min-h-screen flex-col bg-background">
+        <div className="relative flex min-h-screen flex-col">
+          <SystemChrome />
           <SiteNav />
-          <main className="flex-1">
+          <main key={pathname} className="page-enter relative z-10 flex-1">
             {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
             <Outlet />
           </main>
-          <SiteFooter />
+          <div className="relative z-10">
+            <SiteFooter />
+          </div>
         </div>
       )}
     </QueryClientProvider>

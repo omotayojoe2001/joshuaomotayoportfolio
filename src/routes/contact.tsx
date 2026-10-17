@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
-import { Toaster, toast } from "sonner";
+import { useMemo, useState } from "react";
+import { toast } from "sonner";
 import { PageHeader, Section } from "@/components/site-sections";
-import { Reveal } from "@/components/motion-primitives";
+import { Reveal, useSpotlight } from "@/components/motion-primitives";
 import { supabase } from "@/integrations/supabase/client";
 import { uploadAttachment } from "@/lib/admin";
 import { useSettings } from "@/lib/content";
@@ -52,6 +52,7 @@ function Chip({
       type="button"
       onClick={onClick}
       aria-pressed={active}
+      data-cursor="SET"
       className={`border px-4 py-2 label-tech transition-colors ${
         active
           ? "border-accent bg-accent text-accent-foreground"
@@ -79,6 +80,21 @@ function ContactPage() {
   const update =
     (key: keyof typeof form) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
       setForm((f) => ({ ...f, [key]: e.target.value }));
+
+  const asideSpot = useSpotlight();
+
+  // The machine reports how complete the brief is, live as you type.
+  const completion = useMemo(() => {
+    const checks = [
+      form.name.trim().length > 0,
+      /.+@.+\..+/.test(form.email.trim()),
+      form.message.trim().length > 0,
+      !!projectType,
+      !!budget || form.company.trim().length > 0,
+      !!file,
+    ];
+    return Math.round((checks.filter(Boolean).length / checks.length) * 100);
+  }, [form, projectType, budget, file]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -110,7 +126,6 @@ function ContactPage() {
 
   return (
     <>
-      <Toaster position="bottom-right" theme="dark" richColors />
       <PageHeader
         index="07"
         eyebrow="CONTACT"
@@ -118,7 +133,7 @@ function ContactPage() {
         intro="Have a website, AI idea, digital product or technology problem you want to solve?"
       />
 
-      <Section className="pt-0">
+      <Section label="START A CONVERSATION" index="01" className="pt-0">
         <div className="grid gap-12 lg:grid-cols-12">
           <div className="lg:col-span-7">
             {status === "sent" ? (
@@ -258,6 +273,7 @@ function ContactPage() {
                 <button
                   type="submit"
                   disabled={status === "sending"}
+                  data-cursor="SEND"
                   className="group inline-flex items-center gap-3 border border-accent px-6 py-3.5 label-tech text-accent transition-colors hover:bg-accent hover:text-accent-foreground disabled:opacity-60"
                 >
                   {status === "sending" ? "SENDING…" : "START A CONVERSATION"}
@@ -271,20 +287,41 @@ function ContactPage() {
 
           <aside className="lg:col-span-5">
             <Reveal delay={0.1}>
-              <div className="border border-border p-8">
-                <h2 className="label-tech text-accent">DIRECT</h2>
-                {settings?.email ? (
-                  <a
-                    href={`mailto:${settings.email}`}
-                    className="display mt-4 block text-2xl link-underline"
-                  >
-                    {settings.email}
-                  </a>
-                ) : (
-                  <p className="mt-4 text-sm text-muted-foreground">
-                    Email address is configured in the CMS and will appear here.
-                  </p>
-                )}
+              <div {...asideSpot} className="spotlight border border-border p-8">
+                <h2 className="label-tech text-accent">BRIEF INTEGRITY</h2>
+                <div className="mt-4 flex items-center gap-4">
+                  <div className="h-1.5 flex-1 overflow-hidden bg-border">
+                    <div
+                      className="h-full bg-accent transition-[width] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)]"
+                      style={{ width: `${completion}%` }}
+                    />
+                  </div>
+                  <span className="tnum label-tech w-12 text-right text-foreground">
+                    {completion}%
+                  </span>
+                </div>
+                <p className="mt-3 text-xs text-muted-foreground">
+                  {completion === 100
+                    ? "Brief complete. Ready to transmit."
+                    : "Fill the required fields to reach 100%."}
+                </p>
+
+                <div className="mt-8 border-t border-border pt-6">
+                  <h2 className="label-tech text-accent">DIRECT</h2>
+                  {settings?.email ? (
+                    <a
+                      href={`mailto:${settings.email}`}
+                      className="display mt-4 block text-2xl link-underline"
+                      data-cursor="COPY"
+                    >
+                      {settings.email}
+                    </a>
+                  ) : (
+                    <p className="mt-4 text-sm text-muted-foreground">
+                      Email address is configured in the CMS and will appear here.
+                    </p>
+                  )}
+                </div>
                 {settings?.availability_status && (
                   <div className="mt-8 border-t border-border pt-6">
                     <h2 className="label-tech text-accent">STATUS</h2>

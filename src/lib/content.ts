@@ -87,6 +87,38 @@ const SEED_NOW: NowItem[] = [
   },
 ];
 
+/**
+ * Teach / Watch lesson catalogue. The CMS (`youtube_videos`) is authoritative;
+ * this is the floor so the surface is never an empty box. Newest lesson first,
+ * matching the `created_at desc` order used by useVideos().
+ */
+const SEED_VIDEOS: Video[] = [
+  {
+    id: "v-server-setup",
+    title: "Setting Up Your Server",
+    video_url: "https://www.youtube.com/watch?v=-de8urY2C1w",
+    thumbnail: "https://i.ytimg.com/vi/-de8urY2C1w/hqdefault.jpg",
+    description:
+      "From a blank hosting account to a live server: what a server actually does, how to choose one and how to get your first site answering on a domain.",
+    featured: true,
+    published: true,
+    created_at: "2026-09-18T09:00:00.000Z",
+    updated_at: "2026-09-18T09:00:00.000Z",
+  },
+  {
+    id: "v-wp-dashboard",
+    title: "Navigating the Wordpress Dashboard",
+    video_url: "https://www.youtube.com/watch?v=emn79cIG3VI",
+    thumbnail: "https://i.ytimg.com/vi/emn79cIG3VI/hqdefault.jpg",
+    description:
+      "A guided tour of the Wordpress admin: the sidebar, posts versus pages, media, themes and plugins - and the four screens you actually need every day.",
+    featured: false,
+    published: true,
+    created_at: "2026-09-04T09:00:00.000Z",
+    updated_at: "2026-09-04T09:00:00.000Z",
+  },
+];
+
 export function useBuildProducts() {
   return useQuery({
     queryKey: ["products"],
@@ -247,8 +279,10 @@ export function useVideos() {
         .select("*")
         .eq("published", true)
         .order("created_at", { ascending: false });
-      if (error) return [];
-      return data as Video[];
+      const rows = (error ? [] : data) as Video[];
+      // Same rule as projects and now_items: the catalogue is the floor, so a
+      // CMS that is empty or unreachable still shows real lessons.
+      return rows.length === 0 ? SEED_VIDEOS : rows;
     },
   });
 }

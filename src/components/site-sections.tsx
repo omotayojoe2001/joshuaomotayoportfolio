@@ -1,7 +1,12 @@
 import { Link } from "@tanstack/react-router";
+import { motion, useReducedMotion } from "motion/react";
 import type { ReactNode } from "react";
-import { Magnetic } from "@/components/motion-primitives";
+import { LineReveal, Magnetic, ScrambleText, useSpotlight } from "@/components/motion-primitives";
 
+/**
+ * The section frame used by every surface: a numbered rule that draws itself
+ * in, and a `data-hud` read the instrument rail on the right picks up.
+ */
 export function Section({
   id,
   index,
@@ -15,14 +20,46 @@ export function Section({
   children: ReactNode;
   className?: string;
 }) {
+  const reduced = useReducedMotion();
+
   return (
-    <section id={id} className={`rule py-20 md:py-32 ${className}`}>
+    <section
+      id={id}
+      data-hud={label ?? ""}
+      data-hud-index={index ?? ""}
+      className={`rule py-20 md:py-32 ${className}`}
+    >
       <div className="container-x">
         {(index || label) && (
           <div className="mb-10 flex items-center gap-4 label-tech">
-            {index && <span className="text-accent">{index}</span>}
-            {label && <span>{label}</span>}
-            <span className="h-px flex-1 bg-border" />
+            {index && (
+              <motion.span
+                className="tnum text-accent"
+                initial={reduced ? false : { opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.4 }}
+              >
+                {index}
+              </motion.span>
+            )}
+            {label && (
+              <motion.span
+                initial={reduced ? false : { opacity: 0, x: -10 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              >
+                {label}
+              </motion.span>
+            )}
+            <motion.span
+              className="h-px flex-1 origin-left bg-border"
+              initial={reduced ? false : { scaleX: 0 }}
+              whileInView={{ scaleX: 1 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            />
           </div>
         )}
         {children}
@@ -42,7 +79,8 @@ export function ArrowLink({
   children: ReactNode;
   tone?: "default" | "accent";
 }) {
-  const cls = `group inline-flex items-center gap-3 border px-5 py-3 label-tech transition-colors ${
+  const spotlight = useSpotlight();
+  const cls = `spotlight group inline-flex items-center gap-3 border px-5 py-3 label-tech transition-colors ${
     tone === "accent"
       ? "border-accent text-accent hover:bg-accent hover:text-accent-foreground"
       : "border-border-strong text-foreground hover:border-accent hover:text-accent"
@@ -56,12 +94,19 @@ export function ArrowLink({
   return (
     <Magnetic strength={0.18}>
       {href ? (
-        <a href={href} target="_blank" rel="noreferrer" className={cls}>
+        <a
+          href={href}
+          target="_blank"
+          rel="noreferrer"
+          data-cursor="OPEN"
+          {...spotlight}
+          className={cls}
+        >
           {inner}
         </a>
       ) : (
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        <Link to={to as any} className={cls}>
+        <Link to={to as any} data-cursor="GO" {...spotlight} className={cls}>
           {inner}
         </Link>
       )}
@@ -88,16 +133,37 @@ export function PageHeader({
   title: string;
   intro?: string;
 }) {
+  const reduced = useReducedMotion();
+  const lines = title.split(/(?<=[.,!?])\s/);
+
   return (
-    <header className="container-x pt-32 pb-14 md:pt-44 md:pb-20">
+    <header
+      data-hud={eyebrow}
+      data-hud-index={index}
+      className="container-x relative pt-32 pb-14 md:pt-44 md:pb-20"
+    >
       <div className="flex items-center gap-4 label-tech">
-        <span className="text-accent">{index}</span>
-        <span>{eyebrow}</span>
-        <span className="h-px flex-1 bg-border" />
+        <span className="tnum text-accent">{index}</span>
+        <ScrambleText text={eyebrow} speed={22} />
+        <motion.span
+          className="h-px flex-1 origin-left bg-border"
+          initial={reduced ? false : { scaleX: 0 }}
+          animate={{ scaleX: 1 }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+        />
       </div>
-      <h1 className="display mt-8 text-[13vw] leading-[0.88] md:text-[7vw]">{title}</h1>
+      <h1 className="display mt-8 text-[13vw] leading-[0.88] md:text-[7vw]">
+        <LineReveal lines={lines.length > 1 ? lines : [title]} delay={0.1} />
+      </h1>
       {intro && (
-        <p className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground">{intro}</p>
+        <motion.p
+          initial={reduced ? false : { opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.55, duration: 0.7 }}
+          className="mt-6 max-w-xl text-base leading-relaxed text-muted-foreground"
+        >
+          {intro}
+        </motion.p>
       )}
     </header>
   );
