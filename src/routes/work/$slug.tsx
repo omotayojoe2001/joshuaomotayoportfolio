@@ -137,6 +137,7 @@ function CaseStudyPage() {
               src={figma.embedUrl}
               title={figma.title}
               eyebrow={figma.eyebrow ?? "FIGMA · LIVE PROTOTYPE"}
+              fallbackUrl={figma.figmaUrl}
               aspect="aspect-[16/10]"
             />
           ) : (

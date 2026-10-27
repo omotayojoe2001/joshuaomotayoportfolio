@@ -59,11 +59,13 @@ export function FeaturedPrototype() {
             src={embed.embedUrl}
             title={embed.title}
             eyebrow={embed.eyebrow ?? "FIGMA · LIVE PROTOTYPE"}
+            fallbackUrl={embed.figmaUrl}
             aspect="aspect-[16/11]"
           />
           <p className="mt-3 text-[11px] leading-relaxed text-muted-foreground/70">
-            Loads on click so the page stays fast. Once playing, click any frame or the left sidebar
-            to walk the flows.
+            Click play once and Figma's runtime boots right here. First load can take a minute,
+            after that it is instant. If it ever feels too slow, the Open-in-Figma tab above
+            bypasses the embed.
           </p>
         </div>
       </Reveal>
