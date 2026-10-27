@@ -4,6 +4,7 @@ import { Section, ArrowLink } from "@/components/site-sections";
 import { Credibility } from "@/components/credibility";
 import { Capabilities } from "@/components/capabilities";
 import { ProjectGrid } from "@/components/project-cards";
+import { FeaturedPrototype } from "@/components/featured-prototype";
 import { GlobalReach } from "@/components/global-reach";
 import { ProductShowcase } from "@/components/product-showcase";
 import { ArticleList } from "@/components/article-list";
@@ -33,6 +34,11 @@ export function HomePage() {
   return (
     <>
       <Hero />
+
+      {/* 02 - Live Figma prototype */}
+      <Section index="00" label="LIVE FROM FIGMA">
+        <FeaturedPrototype />
+      </Section>
 
       {/* 03 - Credibility */}
       <Section>

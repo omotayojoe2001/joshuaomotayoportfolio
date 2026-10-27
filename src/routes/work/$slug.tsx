@@ -3,6 +3,8 @@ import { loadProject, loadProjects, type Project } from "@/lib/content";
 import { ogImage } from "@/lib/og";
 import { ArrowLink } from "@/components/site-sections";
 import { Reveal } from "@/components/motion-primitives";
+import { FigmaPlayer } from "@/components/figma-player";
+import { figmaEmbedsBySlug } from "@/lib/data/figma-embeds";
 
 type LoaderData = {
   project: Project | null;
@@ -66,6 +68,7 @@ function Block({ label, body, index }: { label: string; body?: string | null; in
 
 function CaseStudyPage() {
   const { project, next } = Route.useLoaderData();
+  const figma = project ? figmaEmbedsBySlug[project.slug] : undefined;
 
   if (!project) {
     return (
@@ -118,42 +121,52 @@ function CaseStudyPage() {
         </div>
         {project.url && (
           <div className="mt-10">
-            <ArrowLink href={project.url} tone="accent">
-              Visit live site
+            <ArrowLink href={figma?.figmaUrl ?? project.url} tone="accent">
+              {figma ? "Open prototype in Figma" : "Visit live site"}
             </ArrowLink>
           </div>
         )}
       </header>
 
-      {/* Hero image */}
+      {/* Hero visual: an interactive Figma prototype when one exists for this
+          slug, otherwise the still image (or the initials fallback). */}
       <div className="container-x mt-14">
         <Reveal>
-          <div className="relative aspect-[16/9] overflow-hidden border border-border bg-surface">
-            {project.featured_image || ogImage(project.url) ? (
-              <img
-                src={project.featured_image || ogImage(project.url)}
-                alt={project.title}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <div className="grid-bg relative flex h-full w-full items-center justify-center overflow-hidden">
-                <span className="display select-none text-[clamp(3.5rem,12vw,10rem)] leading-none text-foreground/80">
-                  {project.title
-                    .replace(/[^\sA-Za-z0-9]/g, " ")
-                    .split(/\s+/)
-                    .filter(Boolean)
-                    .slice(0, 2)
-                    .map((w) => w[0]?.toUpperCase() ?? "")
-                    .join("")}
-                </span>
-                {project.category ? (
-                  <span className="absolute left-5 top-5 label-tech text-accent">
-                    {project.category.toUpperCase()}
+          {figma ? (
+            <FigmaPlayer
+              src={figma.embedUrl}
+              title={figma.title}
+              eyebrow={figma.eyebrow ?? "FIGMA · LIVE PROTOTYPE"}
+              aspect="aspect-[16/10]"
+            />
+          ) : (
+            <div className="relative aspect-[16/9] overflow-hidden border border-border bg-surface">
+              {project.featured_image || ogImage(project.url) ? (
+                <img
+                  src={project.featured_image || ogImage(project.url)}
+                  alt={project.title}
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="grid-bg relative flex h-full w-full items-center justify-center overflow-hidden">
+                  <span className="display select-none text-[clamp(3.5rem,12vw,10rem)] leading-none text-foreground/80">
+                    {project.title
+                      .replace(/[^\sA-Za-z0-9]/g, " ")
+                      .split(/\s+/)
+                      .filter(Boolean)
+                      .slice(0, 2)
+                      .map((w) => w[0]?.toUpperCase() ?? "")
+                      .join("")}
                   </span>
-                ) : null}
-              </div>
-            )}
-          </div>
+                  {project.category ? (
+                    <span className="absolute left-5 top-5 label-tech text-accent">
+                      {project.category.toUpperCase()}
+                    </span>
+                  ) : null}
+                </div>
+              )}
+            </div>
+          )}
         </Reveal>
       </div>
 

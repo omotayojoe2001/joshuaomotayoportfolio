@@ -51,6 +51,37 @@ function build(draft: Draft): Project {
 
 export const seedProjects: Project[] = [
   build({
+    id: "7f1c0a10-0000-4000-8000-000000000001",
+    title: "Buffson Fitness App",
+    slug: "buffson-fitness-app",
+    description:
+      "A fitness app designed end to end in Figma - onboarding, plan, live set logging, streaks and progress. Interactive prototype, tap it here.",
+    overview:
+      "Buffson is a self-initiated product design exploration: a training companion for people who lift three to five times a week and want the app to keep the log, not the other way around. The full flow lives in Figma as a working prototype, playable inside this portfolio.",
+    problem:
+      "Most fitness apps treat logging as a tax you pay between sets. The design brief was to make the log feel like part of the set - fast to enter, hard to lose, and readable at a glance with sweaty hands and small phone screens.",
+    approach:
+      "I mapped the app to five flows: onboarding with realistic goal setting, the plan view, the live session, the recovery and streak view, and the progress archive. Each flow was designed mobile-first, thumb-reachable and legible in a gym. Everything is a component in a small system so screens stay consistent as they grow.",
+    design_direction:
+      "Dark surface for gym glare, one energetic accent for state, and huge numerals for reps and weight because that is what a lifter actually reads between sets. Type is tight, spacing is generous, and the interface never asks you to look twice for the number that matters.",
+    development:
+      "Built entirely in Figma with auto layout, variants, component properties and interactive components. Prototype uses variables and conditional logic for streak, rest timer state and personal bests so a reviewer can tap through a full week without any static frames.",
+    outcome:
+      "A tapable, shareable, always-current prototype. It opens directly on this page for anyone reviewing the work, and stays editable so the design can keep moving after it ships.",
+    reflection:
+      "The strongest design deliverable is not a screenshot, it is something a reviewer can hold and step through. Embedding the live prototype changed how the work reads and cut the explanation short.",
+    category: "Product Design",
+    year: "2026",
+    client: "Self-initiated",
+    location: "Lagos, Nigeria",
+    technologies: ["Figma", "Prototyping", "Design System", "Mobile UI"],
+    url: "https://www.figma.com/proto/mGsh7uvwl7Y1wooI0sg68L/Buffson-Fitness-App-Updated",
+    layout: "portrait",
+    sort_order: 1,
+    featured: true,
+    status: "Prototype",
+  }),
+  build({
     id: "7f1c0a10-0000-4000-8000-000000000002",
     title: "Wealthtiv",
     slug: "wealthtiv",
